@@ -7,9 +7,8 @@ import com.codepenguins.rolling.io.UserEvents;
 public class GameScene extends Scene {
 
 	private static final float CLOUD_PROBABILITY = Game.TARGET_FPS;
-	private static final float PLANE_PROBABILITY = 0.5f;
+	private static final float PLANE_PROBABILITY = 30;
 	private static final float SCENE_MULTIPLIER = 2;
-
 
 	private Player player;
 	private int sceneLeft;
@@ -25,13 +24,29 @@ public class GameScene extends Scene {
 		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
 		new Sound("res/game.wav");
 		player = new Player();
+		player.setX(Game.WIDTH / 2);
+		player.setY(Game.HEIGHT / 2);
 		appendGameObject(player);
 	}
 
 	@Override
 	public void processScene(long tick) {
-		super.processScene(tick);
+		float oldPlayerX = player.getX();
+		float oldPlayerY = player.getY();
 
+		super.processScene(tick);
+		
+		float diffX = player.getX() - oldPlayerX;
+		float diffY = player.getY() - oldPlayerY;
+		for (GameObject object: getObjects()) {
+			if (!(object instanceof Player)) {
+				object.setX(object.getX() - diffX);
+				object.setY(object.getY() - diffY);
+			}
+		}
+		player.setX(player.getX() - diffX);
+		player.setY(player.getY() - diffY);
+		
 		double cloudProb = Math.random();
 		if (cloudProb < CLOUD_PROBABILITY / Game.TARGET_FPS) {
 			generateCloud();
@@ -52,13 +67,12 @@ public class GameScene extends Scene {
 		Cloud cloud = new Cloud(right);
 		cloud.setX(right ? sceneRight - 200: sceneLeft + 200);
 		cloud.setY(getRandomY());
-		System.out.println(cloud.getX() + " " + cloud.getY());
-		appendGameObject(cloud);
+		prependGameObject(cloud);
 	}
 
 	public void generatePlane() {
 		int typesCount = Plane.getTypesCount();
-		int typeIndex = (int) (Math.random() * (typesCount - 1) + 1);
+		int typeIndex = (int) (Math.random() * (typesCount));
 		Plane.Type type = Plane.Type.values()[typeIndex];
 		boolean right = Math.random() > 0.5;
 		Plane plane = new Plane(type, right);

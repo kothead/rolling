@@ -27,7 +27,7 @@ public class Game {
 	private static final String TITLE = "Rolling";
 	
 	private static Render render;
-	private static boolean running;
+	private static volatile boolean running;
 	private static long prevTime;
 	private static long tick;
 	private static Scene scene;
@@ -72,6 +72,10 @@ public class Game {
 	
 	public static void setGameOver() {
 		running = false;
+	}
+	
+	public static boolean isRunning() {
+		return running;
 	}
 	
 	private static void initTextures() {

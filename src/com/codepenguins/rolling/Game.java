@@ -70,13 +70,10 @@ public class Game {
 	}
 	
 	private static void initTextures() {
-		Cloud.setFrames(new int[][] {
+		GameObject.setFrames(new int[][] {
 				{render.initTexture("res/cloud1.png"), 1, 197, 57},
 				{render.initTexture("res/cloud2.png"), 1, 122, 45},
-				{render.initTexture("res/cloud3.png"), 1, 141, 47}
-		});
-		
-		Plane.setFrames(new int[][] {
+				{render.initTexture("res/cloud3.png"), 1, 141, 47},
 				{render.initTexture("res/Dirizhabl.png"), 1, 200, 95},
 				{render.initTexture("res/duck.png"), 2, 64, 64},
 				{render.initTexture("res/Munhgauzen.png"), 1, 58, 85},

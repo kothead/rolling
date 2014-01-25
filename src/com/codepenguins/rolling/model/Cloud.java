@@ -8,7 +8,9 @@ public class Cloud extends GameObject {
 
 	private static final int MIN_SPEED = 1;
 	private static final int MAX_SPEED = 10;
-
+	private static final int TEXTURE_START = 0;
+	private static final int TEXTURE_COUNT = 3;
+	
 	private float v;
 	
 	public Cloud(boolean right) {
@@ -17,7 +19,7 @@ public class Cloud extends GameObject {
 		if (right) {
 			v = -v;
 		}
-		int texture = (int) (Math.random() * getTexturesCount());
+		int texture = (int) (Math.random() * TEXTURE_COUNT);
 		setCurrentTexture(texture);
 	}
 	

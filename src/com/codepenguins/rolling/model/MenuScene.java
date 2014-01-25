@@ -7,9 +7,9 @@ import com.codepenguins.rolling.io.UserEvents;
 
 public class MenuScene extends Scene {
 
-	private final int BACKGROUND = 0xFF00FF00;
-	private final int COLOR = 0xFFFF00FF;
-	private final int SELECTED_COLOR = 0xFF0000FF;
+	private final int BACKGROUND = 0x00FF00;
+	private final int COLOR = 0xFFFF00;
+	private final int SELECTED_COLOR = 0xFF0000;
 	private final int FONT_ID = 0;
 	
 	private final String START_GAME = "Start";

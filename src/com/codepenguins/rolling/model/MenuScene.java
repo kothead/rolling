@@ -9,7 +9,7 @@ public class MenuScene extends Scene {
 
 	private final int BACKGROUND = 0x00FF00;
 	private final int COLOR = 0xFFFF00;
-	private final int SELECTED_COLOR = 0xFF0000;
+	private final int SELECTED_COLOR = 0x333333;
 	private final int FONT_ID = 0;
 	
 	private final String START_GAME = "Start";
@@ -65,12 +65,12 @@ public class MenuScene extends Scene {
 	}
 	
 	private int getXcoord() {
-		int x = (int) (Game.WIDTH * 0.7f);
+		int x = (int) (Game.WIDTH * 0.1f);
 		return x;
 	}
 	
 	private int getYcoord(int position) {
-		int y = (int) (Game.HEIGHT * 0.3f + position * (Game.FONT_SIZE_LARGE + 20));
+		int y = (int) (Game.HEIGHT * 0.7f + position * (Game.FONT_SIZE_LARGE + 20));
 		return y;
 	}
 

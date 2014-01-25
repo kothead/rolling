@@ -33,6 +33,7 @@ public class Game {
 		render.setBackgroundColor(scene.getBackgroundColor());
 		prevTime = System.currentTimeMillis();
 		while (running) {
+			
 			scene.processScene(prevTime);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);

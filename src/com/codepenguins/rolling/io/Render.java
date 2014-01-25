@@ -86,6 +86,10 @@ public class Render {
 		return fonts.size() - 1;
 	}
 	
+	public boolean isClosing() {
+		return Display.isCloseRequested();
+	}
+	
 	
 	/* =============
 	 * Private

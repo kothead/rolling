@@ -53,16 +53,13 @@ public class Render {
 		Tex.getTexture(obj.getTextureId()).bind();
 		glBegin(GL_QUADS);
 			glTexCoord2f(0, ((float)obj.getFrameId()) / obj.getFrameCount());
-			glVertex3f(obj.getX(), obj.getY()+obj.getHeight(), -1);
-			
-			glTexCoord2f(0, (obj.getFrameId() + 1.0f)/obj.getFrameCount());
-			glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
-			
-			glTexCoord2f(1, (obj.getFrameId() + 1.0f)/obj.getFrameCount());
-			glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
-			
-			glTexCoord2f(1, ((float)obj.getFrameId())/obj.getFrameCount());
 			glVertex3f(obj.getX(), obj.getY(), -1);
+			glTexCoord2f(0, (obj.getFrameId() + 1.0f)/obj.getFrameCount());
+			glVertex3f(obj.getX(), obj.getY()+obj.getHeight(), -1);
+			glTexCoord2f(1, (obj.getFrameId() + 1.0f)/obj.getFrameCount());
+			glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
+			glTexCoord2f(1, ((float)obj.getFrameId())/obj.getFrameCount());
+			glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
 		glEnd();
 	}
 	

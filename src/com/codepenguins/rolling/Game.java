@@ -31,8 +31,8 @@ public class Game {
 		initMenuScene();
 		render.setBackgroundColor(scene.getBackgroundColor());
 		prevTime = System.currentTimeMillis();
-		while (running) {
-			
+		
+		while (running) {	
 			scene.processScene(prevTime);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);

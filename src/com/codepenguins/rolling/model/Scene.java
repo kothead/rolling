@@ -3,6 +3,8 @@ package com.codepenguins.rolling.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.codepenguins.rolling.Game;
+
 public class Scene {
 	private List<GameObject> objects;
 	

@@ -2,11 +2,12 @@ package com.codepenguins.rolling.model;
 
 import com.codepenguins.rolling.Game;
 import com.codepenguins.rolling.io.UserEvents;
+import com.codepenguins.rolling.model.Plane.Type;
 
 public class GameScene extends Scene {
 
 	private static final float CLOUD_PROBABILITY = Game.TARGET_FPS;
-	private static final float PLANE_PROBABILITY = 0.5f;
+	private static final float PLANE_PROBABILITY = 30;
 	private static final float SCENE_MULTIPLIER = 2;
 
 
@@ -51,13 +52,12 @@ public class GameScene extends Scene {
 		Cloud cloud = new Cloud(right);
 		cloud.setX(right ? sceneRight - 200: sceneLeft + 200);
 		cloud.setY(getRandomY());
-		System.out.println(cloud.getX() + " " + cloud.getY());
-		appendGameObject(cloud);
+		prependGameObject(cloud);
 	}
 
 	public void generatePlane() {
 		int typesCount = Plane.getTypesCount();
-		int typeIndex = (int) (Math.random() * (typesCount - 1) + 1);
+		int typeIndex = (int) (Math.random() * (typesCount));
 		Plane.Type type = Plane.Type.values()[typeIndex];
 		boolean right = Math.random() > 0.5;
 		Plane plane = new Plane(type, right);

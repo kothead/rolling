@@ -1,4 +1,4 @@
-package com.codepenguins.rolling;
+package com.codepenguins.rolling.io;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -11,20 +11,20 @@ import java.io.IOException;
 public class Textures {
 	private ArrayList<ExtrTexture> textures;
 	
+	
 	/* =============
 	 * Init
 	 */
+	
 	public Textures() {
 		textures = new ArrayList<ExtrTexture>();
 	}
 	
+	
 	/* =============
-	 * Public:
-	 *   void loadTexture(String fileName);
-	 *   Texture getTexture(int number);
-	 *   String getTextureAddress(int number);
-	 *   int getNumberOfTexture(String fileName);
+	 * Public
 	 */
+	
 	public int loadTexture(String fileName) {
 		String fileExt = fileName.substring(fileName.lastIndexOf('.') + 1);
 		ExtrTexture tex = new ExtrTexture();
@@ -39,12 +39,15 @@ public class Textures {
 		textures.add(tex);
 		return textures.size() - 1;
 	}
+	
 	public Texture getTexture(int number) {
 		return textures.get(number).texture;
 	}
+	
 	public String getTextureAddress(int number) {
 		return textures.get(number).fileName;
 	}
+	
 	public int getNumberOfTexture(String fileName) {
 		int number = -1;
 		int count = textures.size();
@@ -56,11 +59,14 @@ public class Textures {
 		return number;
 	}
 	
+	
 	/* =============
 	 * Private
 	 */
+	
 	private class ExtrTexture {
 		public Texture texture;
 		public String fileName;
 	}
+	
 }

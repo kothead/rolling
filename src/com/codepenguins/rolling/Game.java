@@ -3,6 +3,7 @@ package com.codepenguins.rolling;
 import com.codepenguins.rolling.io.Render;
 import com.codepenguins.rolling.model.Cloud;
 import com.codepenguins.rolling.model.GameObject;
+import com.codepenguins.rolling.model.GameScene;
 import com.codepenguins.rolling.model.MenuScene;
 import com.codepenguins.rolling.model.Plane;
 import com.codepenguins.rolling.model.Scene;
@@ -13,6 +14,8 @@ public class Game {
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 480;
 	public static final int TARGET_FPS = 20;
+	public static final int FONT_SIZE_LARGE = 24;
+	public static final int TARGET_TICK = 1000 / TARGET_FPS;
 	
 	private static final String TITLE = "Rolling";
 	
@@ -56,7 +59,7 @@ public class Game {
 	}
 	
 	public static void initGameScene() {
-		// TODO: insert game scene
+		scene = new GameScene();
 	}
 	
 	public static void setGameOver() {
@@ -77,7 +80,7 @@ public class Game {
 		});
 		
 		TextObject.setFonts(new int[] {
-				render.initNewFont("arial", 24, 0),
+				render.initNewFont("arial", FONT_SIZE_LARGE, 0),
 				render.initNewFont("comic sans ms", 18, 0)
 		});
 	}

@@ -6,10 +6,10 @@ public abstract class GameObject {
 	// 1 - count of frames in texture
 	private static int[][] frames;
 	
-	private int x;
-	private int y;
-	private int width;
-	private int height;
+	private float x;
+	private float y;
+	private float width;
+	private float height;
 	private int textureId;
 	private int frameCount;
 	private int frameId;
@@ -18,29 +18,33 @@ public abstract class GameObject {
 		frames = ids;
 	}
 	
+	public static int getTexturesCount() {
+		return frames.length;
+	}
+	
 	public abstract void process(long tick);
 	
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 	
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 	
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 	
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 	
-	public int getWidth() {
+	public float getWidth() {
 		return width;
 	}
 	
-	public int getHeight() {
+	public float getHeight() {
 		return height;
 	}
 

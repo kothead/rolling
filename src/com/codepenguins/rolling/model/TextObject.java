@@ -34,7 +34,7 @@ public class TextObject {
 	}
 	
 	public int getFontId() {
-		return fontId;
+		return fonts[fontId];
 	}
 	
 	public int getColor() {
@@ -43,6 +43,5 @@ public class TextObject {
 
 	public void setColor(int color) {
 		this.color = color;
-		
 	}
 }

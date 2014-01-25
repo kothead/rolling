@@ -8,6 +8,14 @@ public class TextObject {
 	private int fontId;
 	private int color;
 	
+	public TextObject(int x, int y, String text, int color, int fontId) {
+		this.x = x;
+		this.y = y;
+		this.text = text;
+		this.color = color;
+		this.fontId = fontId;
+	}
+	
 	public int getX() {
 		 return x;
 	}
@@ -26,5 +34,10 @@ public class TextObject {
 	
 	public int getColor() {
 		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
+		
 	}
 }

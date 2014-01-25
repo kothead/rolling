@@ -38,6 +38,9 @@ public class Game {
 				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
 			}
 			render.update();
+			if (render.isClosing()) {
+				running = false;
+			}
 			try {
 				long sleep = calcSleep();
 				Thread.sleep(sleep);

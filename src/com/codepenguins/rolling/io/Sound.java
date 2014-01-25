@@ -1,5 +1,6 @@
 package com.codepenguins.rolling.io;
 
+import com.codepenguins.rolling.Game;
 import java.io.File;
 import java.io.IOException;
 
@@ -14,6 +15,7 @@ public class Sound {
 	public Sound(final String fileName) {
 		
 		Thread myThready = new Thread(new Runnable() {
+			private static final int checkStateTime = 200;
             public void run() {
             	try {
 	            	File soundFile = new File(fileName);
@@ -22,7 +24,11 @@ public class Sound {
 	    		    clip.open(ais);
 	    		    clip.setFramePosition(0);
 	    		    clip.start();
-	    		    Thread.sleep(clip.getMicrosecondLength()/1000);
+	    		    long trackLenght = clip.getMicrosecondLength();
+	    		    for (long time = 0; time < trackLenght; time += checkStateTime) {
+	    		    	if (!Game.isRunning()) break;
+	    		    	Thread.sleep(checkStateTime);
+	    		    }
 	    		    clip.stop();
 	    		    clip.close();
 	            } catch(IOException | UnsupportedAudioFileException | LineUnavailableException | InterruptedException exc) {

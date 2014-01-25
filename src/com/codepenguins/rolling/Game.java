@@ -40,7 +40,7 @@ public class Game {
 		render.setBackgroundColor(scene.getBackgroundColor());
 		prevTime = System.currentTimeMillis();
 		
-		while (running) {	
+		while (running) {
 			scene.processScene(tick);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);

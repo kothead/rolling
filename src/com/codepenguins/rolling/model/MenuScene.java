@@ -4,16 +4,17 @@ import java.util.List;
 
 import com.codepenguins.rolling.Game;
 import com.codepenguins.rolling.io.UserEvents;
+import com.codepenguins.rolling.io.Sound;
 
 public class MenuScene extends Scene {
 
-	private final int BACKGROUND = 0x00FF00;
-	private final int COLOR = 0xFFFF00;
-	private final int SELECTED_COLOR = 0x333333;
+	private final int BACKGROUND = 0x333333;
+	private final int COLOR = 0xFFFFFF;
+	private final int SELECTED_COLOR = 0x33DD33;
 	private final int FONT_ID = 0;
 	
-	private final String START_GAME = "Start";
-	private final String EXIT_GAME = "Exit";
+	private final String START_GAME = "START";
+	private final String EXIT_GAME = "EXIT";
 	
 	int selectedIndex = 0;
 	int buttonsNum = 2;
@@ -30,6 +31,7 @@ public class MenuScene extends Scene {
 		int y1 = getYcoord(1);
 		addTextObject(new TextObject(x, y1, EXIT_GAME, COLOR, FONT_ID));
 		setBackgroundColor(BACKGROUND);
+		new Sound("res/intro.wav");
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class MenuScene extends Scene {
 	}
 	
 	private int getXcoord() {
-		int x = (int) (Game.WIDTH * 0.1f);
+		int x = (int) (Game.WIDTH * 0.15f);
 		return x;
 	}
 	

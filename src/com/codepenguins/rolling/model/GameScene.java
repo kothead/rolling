@@ -1,6 +1,7 @@
 package com.codepenguins.rolling.model;
 
 import com.codepenguins.rolling.Game;
+import com.codepenguins.rolling.io.Sound;
 import com.codepenguins.rolling.io.UserEvents;
 
 public class GameScene extends Scene {
@@ -21,7 +22,7 @@ public class GameScene extends Scene {
 		sceneRight = (int) (Game.WIDTH + Game.WIDTH / multiplier);
 		sceneTop = (int) (0 - Game.HEIGHT / multiplier);
 		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
-
+		new Sound("res/game.wav");
 		player = new Player();
 		player.setX(Game.WIDTH / 2);
 		player.setY(Game.HEIGHT / 2);

@@ -6,6 +6,7 @@ import com.codepenguins.rolling.model.GameObject;
 import com.codepenguins.rolling.model.MenuScene;
 import com.codepenguins.rolling.model.Plane;
 import com.codepenguins.rolling.model.Scene;
+import com.codepenguins.rolling.model.TextObject;
 
 public class Game {
 	
@@ -30,7 +31,10 @@ public class Game {
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);
 			}
-			//TODO: process text objects
+			for (TextObject tObj: scene.getTextObjects()) {
+				render.drawText(tObj.getText(), tObj.getX(), tObj.getY(), 
+						tObj.getColor(), tObj.getFontId());
+			}
 			try {
 				Thread.sleep(calcSleep());
 			} catch (InterruptedException e) {

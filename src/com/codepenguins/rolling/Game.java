@@ -30,10 +30,7 @@ public class Game {
 		initMenuScene();
 		render.setBackgroundColor(scene.getBackgroundColor());
 		prevTime = System.currentTimeMillis();
-		int fnt = render.initNewFont("Arial", 20, 0);
 		while (running) {
-			render.drawText(fnt, 20, 20, "Text", 0x00FF00FF);
-			
 			scene.processScene(prevTime);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);

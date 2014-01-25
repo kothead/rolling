@@ -16,6 +16,11 @@ public class Game {
 	public static final int TARGET_FPS = 20;
 	public static final int FONT_SIZE_LARGE = 24;
 	public static final int TARGET_TICK = 1000 / TARGET_FPS;
+	public static final int UP_INDEX = 0;
+	public static final int DOWN_INDEX = 1;
+	public static final int RIGHT_INDEX = 3;
+	public static final int LEFT_INDEX = 2;
+	public static final int RETURN_INDEX = 4;
 	public static final int ESCAPE_INDEX = 5;
 	
 	private static final String TITLE = "Rolling";
@@ -37,11 +42,9 @@ public class Game {
 			scene.processScene(prevTime);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);
-				System.out.println("draw object " + obj.getClass().getName());
 			}
 			for (TextObject tObj: scene.getTextObjects()) {
 				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
-				System.out.println("draw text: " + tObj.getText());
 			}
 			
 			render.update();

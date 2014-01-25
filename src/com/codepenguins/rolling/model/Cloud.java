@@ -1,7 +1,5 @@
 package com.codepenguins.rolling.model;
 
-import java.util.Random;
-
 import com.codepenguins.rolling.Game;
 
 public class Cloud extends GameObject {

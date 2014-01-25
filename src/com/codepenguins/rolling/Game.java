@@ -87,6 +87,7 @@ public class Game {
 				{render.initTexture("res/duck.png"), 2, 64, 64},
 				{render.initTexture("res/Munhgauzen.png"), 1, 58, 85},
 				{render.initTexture("res/tiltrotor.png"), 2, 128, 57}, 
+				{render.initTexture("res/player.png"), 2, 150, 151},
 		});
 		
 		TextObject.setFonts(new int[] {

@@ -20,8 +20,9 @@ public class MenuScene extends Scene {
 	int escapeIndex = 5;
 
 	public MenuScene() {
-		// TODO create buttons
-		//addTextObject(new TextObject(x , y, "text", COLOR, FONT_ID));
+		int x = getXcoord();
+		addTextObject(new TextObject(x, 20, "text", COLOR, FONT_ID));
+		addTextObject(new TextObject(x, 50, "text", COLOR, FONT_ID));
 	}
 
 	@Override
@@ -48,6 +49,11 @@ public class MenuScene extends Scene {
 		} else if (keyPressed[escapeIndex]) {
 			//TODO close
 		}
+	}
+	
+	private int getXcoord() {
+		int x = (int) (Game.WIDTH * 0.7f);
+		return x;
 	}
 
 }

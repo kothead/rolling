@@ -13,9 +13,10 @@ public class Game {
 	
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 480;
-	public static final int TARGET_FPS = 20;
+	public static final int TARGET_FPS = 40;
 	public static final int FONT_SIZE_LARGE = 24;
 	public static final int TARGET_TICK = 1000 / TARGET_FPS;
+	public static final int GAME_TICK = 10;
 	public static final int ESCAPE_INDEX = 5;
 	
 	private static final String TITLE = "Rolling";
@@ -23,6 +24,7 @@ public class Game {
 	private static Render render;
 	private static boolean running;
 	private static long prevTime;
+	private static long tick;
 	private static Scene scene;
 	
 	public static void main(String[] args) {
@@ -34,14 +36,12 @@ public class Game {
 		prevTime = System.currentTimeMillis();
 		
 		while (running) {	
-			scene.processScene(prevTime);
+			scene.processScene(tick);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);
-				System.out.println("draw object " + obj.getClass().getName());
 			}
 			for (TextObject tObj: scene.getTextObjects()) {
 				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
-				System.out.println("draw text: " + tObj.getText());
 			}
 			
 			render.update();
@@ -93,9 +93,9 @@ public class Game {
 	private static long calcSleep() {
 		long millis = 1000 / TARGET_FPS;
 		long now = System.currentTimeMillis();
-		long dif = now - prevTime;
+		tick = now - prevTime;
 		prevTime = now;
-		long sleep = millis - dif;
+		long sleep = millis - tick;
 		if (sleep < 0) {
 			return 0;
 		}

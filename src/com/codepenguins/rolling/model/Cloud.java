@@ -6,8 +6,8 @@ import com.codepenguins.rolling.Game;
 
 public class Cloud extends GameObject {
 
-	private static final int MIN_SPEED = 1;
-	private static final int MAX_SPEED = 10;
+	private static final int MIN_SPEED = 10;
+	private static final int MAX_SPEED = 20;
 	private static final int TEXTURE_START = 0;
 	private static final int TEXTURE_COUNT = 3;
 	
@@ -25,7 +25,7 @@ public class Cloud extends GameObject {
 	
 	@Override
 	public void process(long tick) {
-		float relative = v * tick / Game.TARGET_TICK;
+		float relative = v * Game.GAME_TICK / Game.TARGET_TICK;
 		setX(getX() + relative);
 	}
 

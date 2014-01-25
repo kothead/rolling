@@ -7,8 +7,8 @@ import com.codepenguins.rolling.io.UserEvents;
 
 public class GameScene extends Scene {
 
-	private static final float CLOUD_PROBABILITY = 0.5f;
-	private static final float PLANE_PROBABILITY = 0.1f;
+	private static final float CLOUD_PROBABILITY = Game.TARGET_FPS;
+	private static final float PLANE_PROBABILITY = 0.5f;
 	private static final float SCENE_MULTIPLIER = 2;
 	
 	
@@ -51,8 +51,9 @@ public class GameScene extends Scene {
 	public void generateCloud() {
 		boolean right = Math.random() > 0.5;
 		Cloud cloud = new Cloud(right);
-		cloud.setX(right ? sceneRight: sceneLeft);
+		cloud.setX(right ? sceneRight - 200: sceneLeft + 200);
 		cloud.setY(getRandomY());
+		System.out.println(cloud.getX() + " " + cloud.getY());
 		appendGameObject(cloud);
 	}
 	
@@ -69,7 +70,7 @@ public class GameScene extends Scene {
 	}
 	
 	public int getRandomY() {
-		return (int) (Math.random() * Game.HEIGHT * SCENE_MULTIPLIER + sceneBottom);
+		return (int) (Math.random() * Game.HEIGHT * SCENE_MULTIPLIER + sceneTop);
 	}
 	
 }

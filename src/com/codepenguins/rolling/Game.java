@@ -25,6 +25,7 @@ public class Game {
 		render = new Render(WIDTH, HEIGHT, TITLE);
 		initTextures();
 		initMenuScene();
+		render.setBackgroundColor(scene.getBackgroundColor());
 		
 		prevTime = System.currentTimeMillis();
 		while (running) {
@@ -62,7 +63,7 @@ public class Game {
 		});
 		
 		Plane.setFrames(new int[][] {
-				{render.initTexture("res/Dirizhable.png"), 1},
+				{render.initTexture("res/Dirizhabl.png"), 1},
 				{render.initTexture("res/duck.png"), 2},
 				{render.initTexture("res/Munhgauzen.png"), 1},
 				{render.initTexture("res/tiltrotor.png"), 2}, 

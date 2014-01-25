@@ -6,6 +6,7 @@ import java.util.List;
 public class Scene {
 	private List<GameObject> objects;
 	private List<TextObject> textObjects;
+	private int bgColor;
 	
 	public Scene() {
 		objects = new ArrayList<GameObject>();
@@ -18,6 +19,14 @@ public class Scene {
 	
 	public List<TextObject> getTextObjects() {
 		return textObjects;
+	}
+	
+	public void setBackgroundColor(int color) {
+		bgColor = color;
+	}
+	
+	public int getBackgroundColor() {
+		return bgColor;
 	}
 	
 	public void processScene(long tick) {

@@ -12,6 +12,9 @@ public class MenuScene extends Scene {
 	private final int SELECTED_COLOR = 0xFF0000FF;
 	private final int FONT_ID = 0;
 	
+	private final String START_GAME = "Start";
+	private final String EXIT_GAME = "Exit";
+	
 	int selectedIndex = 0;
 	int buttonsNum = 3;
 
@@ -22,8 +25,10 @@ public class MenuScene extends Scene {
 
 	public MenuScene() {
 		int x = getXcoord();
-		addTextObject(new TextObject(x, 20, "text", COLOR, FONT_ID));
-		addTextObject(new TextObject(x, 50, "text", COLOR, FONT_ID));
+		int y0 = getYcoord(0);
+		addTextObject(new TextObject(x, y0, START_GAME, COLOR, FONT_ID));
+		int y1 = getYcoord(0);
+		addTextObject(new TextObject(x, y1, EXIT_GAME, COLOR, FONT_ID));
 		setBackgroundColor(BACKGROUND);
 	}
 
@@ -44,18 +49,28 @@ public class MenuScene extends Scene {
 //			currentTextObject.setColor(SELECTED_COLOR);
 		} else if (keyPressed[downIndex]) {
 			selectedIndex = Math.min(selectedIndex + 1, buttonsNum);
-			TextObject currentTextObject = getTextObjectById(selectedIndex);
-			currentTextObject.setColor(SELECTED_COLOR);
+			List<TextObject> objects = getTextObjects();
+			for (TextObject tObj : objects) {
+				if (objects.indexOf(tObj) == selectedIndex) 
+					tObj.setColor(SELECTED_COLOR);
+				else
+					tObj.setColor(COLOR);
+			}
 		} else if (keyPressed[returnIndex]) {
 			Game.initGameScene();
 		} else if (keyPressed[escapeIndex]) {
-			//TODO close
+			Game.setGameOver();
 		}
 	}
 	
 	private int getXcoord() {
 		int x = (int) (Game.WIDTH * 0.7f);
 		return x;
+	}
+	
+	private int getYcoord(int position) {
+		int y = (int) (Game.HEIGHT * 0.3f + position * (Game.FONT_SIZE_LARGE + 20));
+		return y;
 	}
 
 }

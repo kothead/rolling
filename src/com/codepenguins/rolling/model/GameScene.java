@@ -65,7 +65,7 @@ public class GameScene extends Scene {
 	public void generatePlane() {
 		int typesCount = Plane.getTypesCount();
 		int typeIndex = (int) (Math.random() * (typesCount));
-		Plane.Type type = Plane.Type.PLANE;//Plane.Type.values()[typeIndex];
+		Plane.Type type = Plane.Type.values()[typeIndex];
 		boolean right = Math.random() > 0.5;
 		Plane plane = new Plane(type, right);
 		if (type == Plane.Type.PLANE || type == Plane.Type.DUCK

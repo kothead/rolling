@@ -1,22 +1,34 @@
 package com.codepenguins.rolling.model;
 
+import java.nio.channels.GatheringByteChannel;
+import java.util.List;
+
 import com.codepenguins.rolling.Game;
 import com.codepenguins.rolling.io.Sound;
 import com.codepenguins.rolling.io.UserEvents;
 
 public class GameScene extends Scene {
 
-	private static final float CLOUD_PROBABILITY = Game.TARGET_FPS;
-	private static final float PLANE_PROBABILITY = 30;
+	private static final int BACKGROUND = 0xC0C0E0;
+	private static final int UI_COLOR = 0xFFFFFF;
+	
+	private static final float CLOUD_PROBABILITY = 1f;
+	private static final float PLANE_PROBABILITY = 0.3f;
 	private static final float SCENE_MULTIPLIER = 2;
-
+	private static final float PATH_MULTIPLIER = 1000;
+	
+	private static final String KILOMETERS = "MILES";
+	
+	private TextObject pathText;
 	private Player player;
+	private int path;
 	private int sceneLeft;
 	private int sceneTop;
 	private int sceneRight;
 	private int sceneBottom;
 
 	public GameScene() {
+		setBackgroundColor(BACKGROUND);
 		float multiplier = SCENE_MULTIPLIER / 2;
 		sceneLeft = (int) (0 - Game.WIDTH / multiplier);
 		sceneRight = (int) (Game.WIDTH + Game.WIDTH / multiplier);
@@ -24,45 +36,105 @@ public class GameScene extends Scene {
 		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
 		new Sound("res/game.wav");
 		player = new Player();
-		player.setX(Game.WIDTH / 2);
-		player.setY(Game.HEIGHT / 2);
+		player.setX((Game.WIDTH - player.getWidth()) / 2);
+		player.setY((Game.HEIGHT - player.getHeight()) / 2);
 		appendGameObject(player);
+		
+		pathText = new TextObject(20, 20, getPathLine(), UI_COLOR, 0);
+		addTextObject(pathText);
 	}
 
 	@Override
 	public void processScene(long tick) {
 		super.processScene(tick);
+		updateObjectsPosition();
+		if (!player.getHit()) {
+			detectCollisions();
+		}
+		collectOutObjects();
+		generateTrash();
+		
+		boolean[] keyPressed = UserEvents.getKeyPressed();
+		if (keyPressed[Game.ESCAPE_INDEX]) {
+			Game.initMenuScene();
+		}
+		
+		pathText.setText(getPathLine());
+	}
+
+	private void updateObjectsPosition() {
 		for (GameObject object: getObjects()) {
 			if (!(object instanceof Player)) {
 				object.setX(object.getX() - player.getVX());
 				object.setY(object.getY() - player.getVY());
 			}
 		}
+		path += player.getVY();
+	}
+
+	private void detectCollisions() {
+		float x1 = player.getX() + player.getWidth() * Player.SPRITE_THRESHOLD;
+		float x2 = player.getX() + player.getWidth() * (1 - Player.SPRITE_THRESHOLD);
+		float y1 = player.getY() + player.getWidth() * Player.SPRITE_THRESHOLD;
+		float y2 = player.getY() + player.getHeight() * (1 - Player.SPRITE_THRESHOLD);
 		
+		for (GameObject object: getObjects()) {
+			if (object instanceof Plane) {
+				Plane plane = (Plane) object;
+				float ox1 = plane.getX();
+				float ox2 = plane.getX() + plane.getWidth();
+				float oy1 = plane.getY();
+				float oy2 = plane.getY() + plane.getHeight();
+				
+				if (ox2 >= x1 && ox1 <= x2 && oy2 >= y1 && oy1 <= y2) {
+					player.setVX(-player.getVX() + plane.getVX());
+					player.setVY(-player.getVY() + plane.getVY());
+					player.setHit(true);
+					return;
+				}
+			}
+		}
+	}
+	
+	private void collectOutObjects() {
+		List<GameObject> objects = getObjects();
+		for (int i = 0; i < objects.size(); i++) {
+			GameObject object = objects.get(i);
+			if (object.getX() < sceneLeft || object.getX() > sceneRight 
+					|| object.getY() < sceneTop || object.getY() > sceneBottom) {
+				objects.remove(i);
+				i--;
+			}
+		}
+		System.out.println(objects.size() + " objects left");
+	}
+
+	private void generateTrash() {
 		double cloudProb = Math.random();
-		if (cloudProb < CLOUD_PROBABILITY / Game.TARGET_FPS) {
+		double calcProb = 1 + Math.max(Math.abs(player.getX()), Math.abs(player.getVY())) / Player.MAX_SPEED; 
+		if (cloudProb < calcProb * CLOUD_PROBABILITY / Game.TARGET_FPS) {
 			generateCloud();
 		}
 
 		double planeProb = Math.random();
-		if (planeProb < PLANE_PROBABILITY / Game.TARGET_FPS) {
+		if (planeProb < calcProb * PLANE_PROBABILITY / Game.TARGET_FPS) {
 			generatePlane();
-		}
-		boolean[] keyPressed = UserEvents.getKeyPressed();
-		if (keyPressed[Game.ESCAPE_INDEX]) {
-			Game.initMenuScene();
-		}
+		}		
 	}
-
-	public void generateCloud() {
+	
+	private void generateCloud() {
 		boolean right = Math.random() > 0.5;
 		Cloud cloud = new Cloud(right);
-		cloud.setX(right ? sceneRight - 200: sceneLeft + 200);
-		cloud.setY(getRandomY());
+		cloud.setY(getRandomY(-Game.HEIGHT, sceneBottom));
+		if (cloud.getY() > Game.HEIGHT || cloud.getY() + cloud.getHeight() < 0) {
+			cloud.setX(getRandomX());
+		} else {
+			cloud.setX(right ? sceneRight : sceneLeft);
+		}
 		prependGameObject(cloud);
 	}
 
-	public void generatePlane() {
+	private void generatePlane() {
 		int typesCount = Plane.getTypesCount();
 		int typeIndex = (int) (Math.random() * (typesCount));
 		Plane.Type type = Plane.Type.values()[typeIndex];
@@ -70,8 +142,12 @@ public class GameScene extends Scene {
 		Plane plane = new Plane(type, right);
 		if (type == Plane.Type.PLANE || type == Plane.Type.DUCK
 				|| type == Plane.Type.ZEPPELIN) {
-			plane.setX(right ? sceneRight: sceneLeft);
 			plane.setY(getRandomY());
+			if (plane.getY() > Game.HEIGHT) {
+				plane.setX(getRandomX());
+			} else {
+				plane.setX(right ? sceneRight: sceneLeft);
+			}
 			appendGameObject(plane);
 		} else if (type == Plane.Type.MUNGH) {
 			plane.setX(getRandomY());
@@ -80,16 +156,19 @@ public class GameScene extends Scene {
 		}
 	}
 
-	public void collectOutObjects() {
-
-	}
-
-	public int getRandomX() {
+	private int getRandomX() {
 		return (int) (Math.random() * Game.WIDTH * SCENE_MULTIPLIER + sceneLeft);
 	}
 
-	public int getRandomY() {
-		return (int) (Math.random() * Game.HEIGHT * SCENE_MULTIPLIER + sceneTop);
+	private int getRandomY() {
+		return getRandomY(0, sceneBottom);
+	}
+	
+	private int getRandomY(int min, int max) {
+		return (int) (Math.random() * (max - min) + min);
 	}
 
+	private String getPathLine() {
+		return String.format("%s: %d", KILOMETERS, (int) (path / PATH_MULTIPLIER));
+	}
 }

@@ -37,7 +37,6 @@ public class Game {
 		render = new Render(WIDTH, HEIGHT, TITLE);
 		initTextures();
 		initMenuScene();
-		render.setBackgroundColor(scene.getBackgroundColor());
 		prevTime = System.currentTimeMillis();
 		
 		while (running) {
@@ -64,10 +63,12 @@ public class Game {
 	
 	public static void initMenuScene() {
 		scene = new MenuScene();
+		render.setBackgroundColor(scene.getBackgroundColor());
 	}
 	
 	public static void initGameScene() {
 		scene = new GameScene();
+		render.setBackgroundColor(scene.getBackgroundColor());
 	}
 	
 	public static void setGameOver() {
@@ -87,7 +88,7 @@ public class Game {
 				{render.initTexture("res/duck.png"), 2, 64, 64},
 				{render.initTexture("res/Munhgauzen.png"), 1, 58, 85},
 				{render.initTexture("res/tiltrotor.png"), 2, 128, 57}, 
-				{render.initTexture("res/player.png"), 2, 150, 151},
+				{render.initTexture("res/player.png"), 2, 100, 128},
 		});
 		
 		TextObject.setFonts(new int[] {

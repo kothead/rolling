@@ -44,4 +44,8 @@ public class TextObject {
 	public void setColor(int color) {
 		this.color = color;
 	}
+	
+	public void setText(String text) {
+		this.text = text;
+	}
 }

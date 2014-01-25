@@ -9,7 +9,7 @@ public class Plane extends GameObject {
 
 	private static final int MIN_SPEED = 1;
 	private static final int MAX_SPEED = 10;
-	private static final int ANIM_SPEED = 100;
+	private static final int ANIM_SPEED = 1;
 	
 	private static final int PLANE_TEXTURE = 6;
 	private static final int ZEPPELIN_TEXTURE = 3;
@@ -63,4 +63,11 @@ public class Plane extends GameObject {
 		}
 	}
 
+	public float getVX() {
+		return vX;
+	}
+	
+	public float getVY() {
+		return vY;
+	}
 }

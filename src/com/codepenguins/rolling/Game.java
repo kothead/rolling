@@ -35,9 +35,11 @@ public class Game {
 			scene.processScene(prevTime);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);
+				System.out.println("draw object " + obj.getClass().getName());
 			}
 			for (TextObject tObj: scene.getTextObjects()) {
 				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
+				System.out.println("draw text: " + tObj.getText());
 			}
 			
 			render.update();
@@ -67,15 +69,16 @@ public class Game {
 	
 	private static void initTextures() {
 		Cloud.setFrames(new int[][] {
-				{render.initTexture("res/cloud1.png"), 1},
-				{render.initTexture("res/cloud2.png"), 1}
+				{render.initTexture("res/cloud1.png"), 1, 197, 57},
+				{render.initTexture("res/cloud2.png"), 1, 122, 45},
+				{render.initTexture("res/cloud3.png"), 1, 141, 47}
 		});
 		
 		Plane.setFrames(new int[][] {
-				{render.initTexture("res/Dirizhabl.png"), 1},
-				{render.initTexture("res/duck.png"), 2},
-				{render.initTexture("res/Munhgauzen.png"), 1},
-				{render.initTexture("res/tiltrotor.png"), 2}, 
+				{render.initTexture("res/Dirizhabl.png"), 1, 200, 95},
+				{render.initTexture("res/duck.png"), 2, 64, 64},
+				{render.initTexture("res/Munhgauzen.png"), 1, 58, 85},
+				{render.initTexture("res/tiltrotor.png"), 2, 128, 57}, 
 		});
 		
 		TextObject.setFonts(new int[] {

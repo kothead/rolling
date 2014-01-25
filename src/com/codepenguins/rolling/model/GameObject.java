@@ -55,6 +55,8 @@ public abstract class GameObject {
 	public void setCurrentTexture(int id) {
 		textureId = frames[id][0];
 		frameCount = frames[id][1];
+		width = frames[id][2];
+		height = frames[id][3];
 		frameId = 0;
 	}
 	

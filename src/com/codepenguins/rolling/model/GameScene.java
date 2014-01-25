@@ -47,6 +47,7 @@ public class GameScene extends Scene {
 		Cloud cloud = new Cloud(right);
 		cloud.setX(right ? sceneRight: sceneLeft);
 		cloud.setY(getRandomY());
+		appendGameObject(cloud);
 	}
 	
 	public void generatePlane() {

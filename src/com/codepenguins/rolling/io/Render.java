@@ -50,16 +50,19 @@ public class Render {
 	}
 	
 	public void drawObject(GameObject obj) {
-//		Tex.getTexture(obj.textureID).bind();
+		Tex.getTexture(obj.getTextureId()).bind();
 		glBegin(GL_QUADS);
-//			glTexCoord2f(0, ((float)obj.frame)/obj.frameCount);
-//			glVertex3f(obj.x-obj.width/2, obj.y-obj.height/2, -1);
-//			glTexCoord2f(1, ((float)obj.frame)/obj.frameCount);
-//			glVertex3f(obj.x+obj.width/2, obj.y-obj.height/2, -1);
-//			glTexCoord2f(1, (obj.frame + 1.0f)/obj.frameCount);
-//			glVertex3f(obj.x+obj.width/2, obj.y+obj.height/2, -1);
-//			glTexCoord2f(0, (obj.frame + 1.0f)/obj.frameCount);
-//			glVertex3f(obj.x-obj.width/2, obj.y+obj.height/2, -1);
+			glTexCoord2f(0, ((float)obj.getFrameId()) / obj.getFrameCount());
+			glVertex3f(obj.getX(), obj.getY()+obj.getHeight(), -1);
+			
+			glTexCoord2f(0, (obj.getFrameId() + 1.0f)/obj.getFrameCount());
+			glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
+			
+			glTexCoord2f(1, (obj.getFrameId() + 1.0f)/obj.getFrameCount());
+			glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
+			
+			glTexCoord2f(1, ((float)obj.getFrameId())/obj.getFrameCount());
+			glVertex3f(obj.getX(), obj.getY(), -1);
 		glEnd();
 	}
 	

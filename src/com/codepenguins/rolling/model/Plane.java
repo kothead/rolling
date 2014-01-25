@@ -9,6 +9,7 @@ public class Plane extends GameObject {
 
 	private static final int MIN_SPEED = 1;
 	private static final int MAX_SPEED = 10;
+	private static final int ANIM_SPEED = 100;
 	
 	private static final int PLANE_TEXTURE = 6;
 	private static final int ZEPPELIN_TEXTURE = 3;
@@ -18,7 +19,8 @@ public class Plane extends GameObject {
 	private float vX;
 	private float vY;
 	private Type type;
-
+	private int animCounter;
+	
 	public Plane(Type type, boolean right) {
 		this.type = type;
 		int speedDiff = MAX_SPEED - MIN_SPEED;
@@ -53,6 +55,12 @@ public class Plane extends GameObject {
 		float relativeY = vY * tick / Game.TARGET_TICK;
 		setX(getX() + relativeX);
 		setY(getY() + relativeY);
+		
+		animCounter += tick;
+		if (animCounter > ANIM_SPEED) {
+			setNextFrame();
+			animCounter = 0;
+		}
 	}
 
 }

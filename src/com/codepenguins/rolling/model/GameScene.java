@@ -30,21 +30,13 @@ public class GameScene extends Scene {
 
 	@Override
 	public void processScene(long tick) {
-		float oldPlayerX = player.getX();
-		float oldPlayerY = player.getY();
-
 		super.processScene(tick);
-		
-		float diffX = player.getX() - oldPlayerX;
-		float diffY = player.getY() - oldPlayerY;
 		for (GameObject object: getObjects()) {
 			if (!(object instanceof Player)) {
-				object.setX(object.getX() - diffX);
-				object.setY(object.getY() - diffY);
+				object.setX(object.getX() - player.getVX());
+				object.setY(object.getY() - player.getVY());
 			}
 		}
-		player.setX(player.getX() - diffX);
-		player.setY(player.getY() - diffY);
 		
 		double cloudProb = Math.random();
 		if (cloudProb < CLOUD_PROBABILITY / Game.TARGET_FPS) {
@@ -72,7 +64,7 @@ public class GameScene extends Scene {
 	public void generatePlane() {
 		int typesCount = Plane.getTypesCount();
 		int typeIndex = (int) (Math.random() * (typesCount));
-		Plane.Type type = Plane.Type.values()[typeIndex];
+		Plane.Type type = Plane.Type.PLANE;//Plane.Type.values()[typeIndex];
 		boolean right = Math.random() > 0.5;
 		Plane plane = new Plane(type, right);
 		if (type == Plane.Type.PLANE || type == Plane.Type.DUCK

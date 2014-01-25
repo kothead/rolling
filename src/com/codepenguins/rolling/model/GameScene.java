@@ -3,12 +3,14 @@ package com.codepenguins.rolling.model;
 import java.util.Random;
 
 import com.codepenguins.rolling.Game;
+import com.codepenguins.rolling.io.UserEvents;
 
 public class GameScene extends Scene {
 
 	private static final float CLOUD_PROBABILITY = 0.5f;
 	private static final float PLANE_PROBABILITY = 0.1f;
 	private static final float SCENE_MULTIPLIER = 2;
+	
 	
 	private Player player;
 	private int sceneLeft;
@@ -39,6 +41,10 @@ public class GameScene extends Scene {
 		double planeProb = Math.random();
 		if (cloudProb < PLANE_PROBABILITY / Game.TARGET_FPS) {
 			generatePlane();
+		}
+		boolean[] keyPressed = UserEvents.getKeyPressed();
+		if (keyPressed[Game.ESCAPE_INDEX]) {
+			Game.initMenuScene();
 		}
 	}
 	

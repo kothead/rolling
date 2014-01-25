@@ -16,6 +16,7 @@ public class Game {
 	public static final int TARGET_FPS = 20;
 	public static final int FONT_SIZE_LARGE = 24;
 	public static final int TARGET_TICK = 1000 / TARGET_FPS;
+	public static final int ESCAPE_INDEX = 5;
 	
 	private static final String TITLE = "Rolling";
 	

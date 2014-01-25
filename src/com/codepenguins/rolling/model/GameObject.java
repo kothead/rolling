@@ -1,6 +1,9 @@
 package com.codepenguins.rolling.model;
 
 public abstract class GameObject {
+	// first dimension - textures
+	// 0 - id of texture
+	// 1 - count of frames in texture
 	private static int[][] frames;
 	
 	private int x;
@@ -9,7 +12,6 @@ public abstract class GameObject {
 	private int height;
 	private int textureId;
 	private int frameCount;
-	private int animationId;
 	private int frameId;
 	
 	public static void setFrames(int[][] ids) {
@@ -33,6 +35,16 @@ public abstract class GameObject {
 	public int getHeight() {
 		return height;
 	}
+
+	/**
+	 * sets current texture
+	 * @param id in frames array of class
+	 */
+	public void setCurrentTexture(int id) {
+		textureId = frames[id][0];
+		frameCount = frames[id][1];
+		frameId = 0;
+	}
 	
 	public int getTextureId() {
 		return textureId;
@@ -42,17 +54,8 @@ public abstract class GameObject {
 		return frameCount;
 	}
 	
-	public int getAnimationId() {
-		return animationId;
-	}
-	
-	public void setAnimationId(int id) {
-		animationId = id;
-		frameId = 0;
-	}
-	
 	public int getFrameId() {
-		return frames[animationId][frameId];
+		return frameId;
 	}
 	
 	public void setNextFrame() {

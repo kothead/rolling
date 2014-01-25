@@ -9,7 +9,7 @@ public class MenuScene extends Scene {
 
 	private final int BACKGROUND = 0x00FF00;
 	private final int COLOR = 0xFFFF00;
-	private final int SELECTED_COLOR = 0xFF0000;
+	private final int SELECTED_COLOR = 0x333333;
 	private final int FONT_ID = 0;
 	
 	int selectedIndex = 0;

@@ -8,13 +8,15 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
 import java.awt.Font;
+import java.util.ArrayList;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 public class Render {
 	private static Textures Tex;
 	private static float cameraAngle;
-	private TrueTypeFont[] fonts;
+	private ArrayList<TrueTypeFont> fonts;
 	
 	
 	/* =============
@@ -24,7 +26,7 @@ public class Render {
 	public Render(int width, int height, String title) {
 		createWindow(width, height, title);
 		setStartGLSettings(width, height);
-		initFonts();
+		fonts = new ArrayList<TrueTypeFont>();
 		Tex = new Textures();
 		cameraAngle = 0;
 	}
@@ -61,11 +63,11 @@ public class Render {
 		glEnd();
 	}
 	
-	public void drawText(String text, int x, int y, int color, int number) {
+	public void drawText(int id, int x, int y, String text, int color) {
 		Color.white.bind();
 		float[] rgba = colorIntToFloat(color);
 		Color clr = new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
-		fonts[number].drawString(x, y, text, clr);
+		fonts.get(id).drawString(x, y, text, clr);
 	}
 	
 	public void update() {
@@ -77,6 +79,11 @@ public class Render {
 	
 	public void setCameraAngle(float angle) {
 		cameraAngle = angle;
+	}
+	
+	public int initNewFont(String fontName, int size, int style) {
+		fonts.add(new TrueTypeFont(new Font(fontName, style, size), true));
+		return fonts.size() - 1;
 	}
 	
 	
@@ -134,11 +141,4 @@ public class Render {
 		colors[3] = (color / 16777216) / 256f;
 		return colors;
 	}
-	
-	private void initFonts() {
-		fonts = new TrueTypeFont[2];
-		fonts[0] = new TrueTypeFont(new Font("Arial", Font.BOLD, 24), true);
-		fonts[1] = new TrueTypeFont(new Font("Comic Sans MS", Font.BOLD, 14), true);
-	}
-	
 }

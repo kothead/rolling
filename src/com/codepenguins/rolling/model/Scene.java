@@ -35,7 +35,11 @@ public class Scene {
 		}
 	}
 	
-	public void addGameObject(GameObject gameObject) {
+	public void prependGameObject(GameObject gameObject) {
+		objects.add(0, gameObject);
+	}
+	
+	public void appendGameObject(GameObject gameObject) {
 		objects.add(gameObject);
 	}
 	

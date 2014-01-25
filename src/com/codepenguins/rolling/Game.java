@@ -14,6 +14,7 @@ public class Game {
 	public static final int HEIGHT = 480;
 	public static final int TARGET_FPS = 20;
 	public static final int FONT_SIZE_LARGE = 24;
+	public static final int TARGET_TICK = 1000 / TARGET_FPS;
 	
 	private static final String TITLE = "Rolling";
 	
@@ -31,15 +32,15 @@ public class Game {
 		prevTime = System.currentTimeMillis();
 		int fnt = render.initNewFont("Arial", 20, 0);
 		while (running) {
-//			render.drawText(fnt, 20, 20, "Text", 0x00FF00FF);
+			render.drawText(fnt, 20, 20, "Text", 0x00FF00FF);
 			
-//			scene.processScene(prevTime);
-//			for (GameObject obj: scene.getObjects()) {
-//				render.drawObject(obj);
-//			}
-//			for (TextObject tObj: scene.getTextObjects()) {
-//				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
-//			}
+			scene.processScene(prevTime);
+			for (GameObject obj: scene.getObjects()) {
+				render.drawObject(obj);
+			}
+			for (TextObject tObj: scene.getTextObjects()) {
+				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
+			}
 			
 			render.update();
 			if (render.isClosing()) {

@@ -11,10 +11,20 @@ public class GameScene extends Scene {
 	private static final float SCENE_MULTIPLIER = 2;
 	
 	private Player player;
-
+	private int sceneLeft;
+	private int sceneTop;
+	private int sceneRight;
+	private int sceneBottom;
+	
 	public GameScene() {
+		float multiplier = SCENE_MULTIPLIER / 2;
+		sceneLeft = (int) (0 - Game.WIDTH / multiplier);
+		sceneRight = (int) (Game.WIDTH + Game.WIDTH / multiplier);
+		sceneTop = (int) (0 - Game.HEIGHT / multiplier);
+		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
+		
 		player = new Player();
-		addGameObject(player);
+		appendGameObject(player);
 	}
 	
 	@Override
@@ -33,7 +43,10 @@ public class GameScene extends Scene {
 	}
 	
 	public void generateCloud() {
-		
+		boolean right = Math.random() > 0.5;
+		Cloud cloud = new Cloud(right);
+		cloud.setX(right ? sceneRight: sceneLeft);
+		cloud.setY(getRandomY());
 	}
 	
 	public void generatePlane() {
@@ -42,6 +55,14 @@ public class GameScene extends Scene {
 	
 	public void collectOutObjects() {
 		
+	}
+	
+	public int getRandomX() {
+		return (int) (Math.random() * Game.WIDTH * SCENE_MULTIPLIER + sceneLeft);
+	}
+	
+	public int getRandomY() {
+		return (int) (Math.random() * Game.HEIGHT * SCENE_MULTIPLIER + sceneBottom);
 	}
 	
 }

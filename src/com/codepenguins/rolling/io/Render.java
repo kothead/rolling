@@ -22,9 +22,9 @@ public class Render {
 	 */
 	
 	public Render(int width, int height, String title) {
-		initFonts();
 		createWindow(width, height, title);
 		setStartGLSettings(width, height);
+		initFonts();
 		Tex = new Textures();
 		cameraAngle = 0;
 	}

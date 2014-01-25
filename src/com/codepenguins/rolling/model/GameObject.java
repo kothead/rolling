@@ -18,6 +18,10 @@ public abstract class GameObject {
 		frames = ids;
 	}
 	
+	public static int getTexturesCount() {
+		return frames.length;
+	}
+	
 	public abstract void process(long tick);
 	
 	public float getX() {

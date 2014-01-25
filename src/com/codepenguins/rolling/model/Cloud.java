@@ -17,6 +17,8 @@ public class Cloud extends GameObject {
 		if (right) {
 			v = -v;
 		}
+		int texture = (int) (Math.random() * getTexturesCount());
+		setCurrentTexture(texture);
 	}
 	
 	@Override

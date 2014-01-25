@@ -63,7 +63,7 @@ public class Render {
 		glEnd();
 	}
 	
-	public void drawText(int id, int x, int y, String text, int color) {
+	public void drawText(int id, float x, float y, String text, int color) {
 		Color.white.bind();
 		float[] rgba = colorIntToFloat(color);
 		Color clr = new Color(rgba[0], rgba[1], rgba[2], rgba[3]);

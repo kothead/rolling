@@ -13,6 +13,7 @@ public class Game {
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
 	public static final int TARGET_FPS = 20;
+	public static final int TARGET_TICK = 1000 / TARGET_FPS;
 	
 	private static final String TITLE = "rolling";
 	

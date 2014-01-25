@@ -3,8 +3,8 @@ package com.codepenguins.rolling.model;
 public class TextObject {
 	
 	private static int[] fonts;
-	private int x;
-	private int y;
+	private float x;
+	private float y;
 	private String text;
 	private int fontId;
 	private int color;
@@ -13,7 +13,7 @@ public class TextObject {
 		fonts = ids;
 	}
 	
-	public TextObject(int x, int y, String text, int color, int fontId) {
+	public TextObject(float x, float y, String text, int color, int fontId) {
 		this.x = x;
 		this.y = y;
 		this.text = text;
@@ -21,11 +21,11 @@ public class TextObject {
 		this.fontId = fontId;
 	}
 	
-	public int getX() {
+	public float getX() {
 		 return x;
 	}
 	
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 

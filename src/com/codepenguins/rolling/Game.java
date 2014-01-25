@@ -3,6 +3,7 @@ package com.codepenguins.rolling;
 import com.codepenguins.rolling.io.Render;
 import com.codepenguins.rolling.model.Cloud;
 import com.codepenguins.rolling.model.GameObject;
+import com.codepenguins.rolling.model.GameScene;
 import com.codepenguins.rolling.model.MenuScene;
 import com.codepenguins.rolling.model.Plane;
 import com.codepenguins.rolling.model.Scene;
@@ -57,7 +58,7 @@ public class Game {
 	}
 	
 	public static void initGameScene() {
-		// TODO: insert game scene
+		scene = new GameScene();
 	}
 	
 	public static void setGameOver() {

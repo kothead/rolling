@@ -35,13 +35,11 @@ public class Game {
 				render.drawObject(obj);
 			}
 			for (TextObject tObj: scene.getTextObjects()) {
-				render.drawText(tObj.getText(), tObj.getX(), tObj.getY(), 
-						tObj.getColor(), tObj.getFontId());
+				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
 			}
 			render.update();
 			try {
 				long sleep = calcSleep();
-				System.out.println("sleep: " + sleep);
 				Thread.sleep(sleep);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -73,6 +71,11 @@ public class Game {
 				{render.initTexture("res/Munhgauzen.png"), 1},
 				{render.initTexture("res/tiltrotor.png"), 2}, 
 		});
+		
+		TextObject.setFonts(new int[] {
+				render.initNewFont("arial", 24, 0),
+				render.initNewFont("comic sans ms", 18, 0)
+		});
 	}
 	
 	/**
@@ -83,7 +86,6 @@ public class Game {
 		long millis = 1000 / TARGET_FPS;
 		long now = System.currentTimeMillis();
 		long dif = now - prevTime;
-		System.out.println(String.format("prevtime: %d; now: %d; millis: %d; dif: %d", prevTime, now, millis, dif));
 		prevTime = now;
 		long sleep = millis - dif;
 		if (sleep < 0) {

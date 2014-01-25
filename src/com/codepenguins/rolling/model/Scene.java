@@ -25,4 +25,32 @@ public class Scene {
 			object.process(tick);
 		}
 	}
+	
+	public void addGameObject(GameObject gameObject) {
+		objects.add(gameObject);
+	}
+	
+	public void addTextObject(TextObject textObject) {
+		textObjects.add(textObject);
+	}
+	
+	public void deleteGameObject(GameObject gameObject) {
+		objects.remove(gameObject);
+	}
+	
+	public void deleteGameObject(int index) {
+		objects.remove(index);
+	}
+	
+	public void deleteTextObject(TextObject textObject) {
+		textObjects.remove(textObject);
+	}
+	
+	public void deleteTextObject(int index) {
+		textObjects.remove(index);
+	}
+	
+	public TextObject getTextObjectById(int index) {
+		return textObjects.get(index);
+	}
 }

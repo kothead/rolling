@@ -7,6 +7,7 @@ import com.codepenguins.rolling.io.UserEvents;
 
 public class MenuScene extends Scene {
 
+	private final int BACKGROUND = 0xFF00FF00;
 	private final int COLOR = 0xFFFF00FF;
 	private final int SELECTED_COLOR = 0xFF0000FF;
 	private final int FONT_ID = 0;
@@ -23,6 +24,7 @@ public class MenuScene extends Scene {
 		int x = getXcoord();
 		addTextObject(new TextObject(x, 20, "text", COLOR, FONT_ID));
 		addTextObject(new TextObject(x, 50, "text", COLOR, FONT_ID));
+		setBackgroundColor(BACKGROUND);
 	}
 
 	@Override

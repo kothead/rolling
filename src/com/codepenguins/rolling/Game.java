@@ -12,7 +12,8 @@ public class Game {
 	
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
-	private static final int TARGET_FPS = 60;
+	public static final int TARGET_FPS = 20;
+	
 	private static final String TITLE = "rolling";
 	
 	private static Render render;
@@ -29,6 +30,7 @@ public class Game {
 		
 		prevTime = System.currentTimeMillis();
 		while (running) {
+			scene.processScene(prevTime);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);
 			}
@@ -36,8 +38,11 @@ public class Game {
 				render.drawText(tObj.getText(), tObj.getX(), tObj.getY(), 
 						tObj.getColor(), tObj.getFontId());
 			}
+			render.update();
 			try {
-				Thread.sleep(calcSleep());
+				long sleep = calcSleep();
+				System.out.println("sleep: " + sleep);
+				Thread.sleep(sleep);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -78,6 +83,7 @@ public class Game {
 		long millis = 1000 / TARGET_FPS;
 		long now = System.currentTimeMillis();
 		long dif = now - prevTime;
+		System.out.println(String.format("prevtime: %d; now: %d; millis: %d; dif: %d", prevTime, now, millis, dif));
 		prevTime = now;
 		long sleep = millis - dif;
 		if (sleep < 0) {

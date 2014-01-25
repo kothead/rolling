@@ -10,9 +10,9 @@ import com.codepenguins.rolling.model.TextObject;
 
 public class Game {
 	
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 600;
 	private static final int TARGET_FPS = 60;
-	private static final int WIDTH = 800;
-	private static final int HEIGHT = 600;
 	private static final String TITLE = "rolling";
 	
 	private static Render render;

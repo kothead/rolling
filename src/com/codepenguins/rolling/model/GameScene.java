@@ -2,14 +2,12 @@ package com.codepenguins.rolling.model;
 
 import com.codepenguins.rolling.Game;
 import com.codepenguins.rolling.io.UserEvents;
-import com.codepenguins.rolling.model.Plane.Type;
 
 public class GameScene extends Scene {
 
 	private static final float CLOUD_PROBABILITY = Game.TARGET_FPS;
 	private static final float PLANE_PROBABILITY = 30;
 	private static final float SCENE_MULTIPLIER = 2;
-
 
 	private Player player;
 	private int sceneLeft;
@@ -25,13 +23,29 @@ public class GameScene extends Scene {
 		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
 
 		player = new Player();
+		player.setX(Game.WIDTH / 2);
+		player.setY(Game.HEIGHT / 2);
 		appendGameObject(player);
 	}
 
 	@Override
 	public void processScene(long tick) {
-		super.processScene(tick);
+		float oldPlayerX = player.getX();
+		float oldPlayerY = player.getY();
 
+		super.processScene(tick);
+		
+		float diffX = player.getX() - oldPlayerX;
+		float diffY = player.getY() - oldPlayerY;
+		for (GameObject object: getObjects()) {
+			if (!(object instanceof Player)) {
+				object.setX(object.getX() - diffX);
+				object.setY(object.getY() - diffY);
+			}
+		}
+		player.setX(player.getX() - diffX);
+		player.setY(player.getY() - diffY);
+		
 		double cloudProb = Math.random();
 		if (cloudProb < CLOUD_PROBABILITY / Game.TARGET_FPS) {
 			generateCloud();

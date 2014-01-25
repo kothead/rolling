@@ -13,7 +13,7 @@ public class Game {
 	
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 480;
-	public static final int TARGET_FPS = 20;
+	public static final int TARGET_FPS = 40;
 	public static final int FONT_SIZE_LARGE = 24;
 	public static final int TARGET_TICK = 1000 / TARGET_FPS;
 	public static final int UP_INDEX = 0;
@@ -21,6 +21,7 @@ public class Game {
 	public static final int RIGHT_INDEX = 3;
 	public static final int LEFT_INDEX = 2;
 	public static final int RETURN_INDEX = 4;
+	public static final int GAME_TICK = 10;
 	public static final int ESCAPE_INDEX = 5;
 	
 	private static final String TITLE = "Rolling";
@@ -28,6 +29,7 @@ public class Game {
 	private static Render render;
 	private static boolean running;
 	private static long prevTime;
+	private static long tick;
 	private static Scene scene;
 	
 	public static void main(String[] args) {
@@ -37,9 +39,9 @@ public class Game {
 		initMenuScene();
 		render.setBackgroundColor(scene.getBackgroundColor());
 		prevTime = System.currentTimeMillis();
-		while (running) {
-			
-			scene.processScene(prevTime);
+		
+		while (running) {	
+			scene.processScene(tick);
 			for (GameObject obj: scene.getObjects()) {
 				render.drawObject(obj);
 			}
@@ -73,13 +75,10 @@ public class Game {
 	}
 	
 	private static void initTextures() {
-		Cloud.setFrames(new int[][] {
+		GameObject.setFrames(new int[][] {
 				{render.initTexture("res/cloud1.png"), 1, 197, 57},
 				{render.initTexture("res/cloud2.png"), 1, 122, 45},
-				{render.initTexture("res/cloud3.png"), 1, 141, 47}
-		});
-		
-		Plane.setFrames(new int[][] {
+				{render.initTexture("res/cloud3.png"), 1, 141, 47},
 				{render.initTexture("res/Dirizhabl.png"), 1, 200, 95},
 				{render.initTexture("res/duck.png"), 2, 64, 64},
 				{render.initTexture("res/Munhgauzen.png"), 1, 58, 85},
@@ -99,9 +98,9 @@ public class Game {
 	private static long calcSleep() {
 		long millis = 1000 / TARGET_FPS;
 		long now = System.currentTimeMillis();
-		long dif = now - prevTime;
+		tick = now - prevTime;
 		prevTime = now;
-		long sleep = millis - dif;
+		long sleep = millis - tick;
 		if (sleep < 0) {
 			return 0;
 		}

@@ -137,12 +137,12 @@ public class Render {
 		glRotatef(cameraAngle, 0.0f, 0.0f, 1.0f);
 	}
 	
-	private float[] colorIntToFloat(int color) {
+	private float[] colorIntToFloat(long color) {
 		float[] colors = new float[4];
-		colors[0] = (color % 256) / 256f;
-		colors[1] = (color / 256 % 256) / 256f;
-		colors[2] = (color / 65536 % 256) / 256f;
-		colors[3] = (color / 16777216) / 256f;
+		colors[3] = 1.0f;
+		colors[2] = (color % 256) / 256f;
+		colors[1] = ((color / 256) % 256) / 256f;
+		colors[0] = ((color / 65536) % 256) / 256f; 
 		return colors;
 	}
 }

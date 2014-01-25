@@ -11,11 +11,11 @@ import com.codepenguins.rolling.model.TextObject;
 public class Game {
 	
 	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	public static final int HEIGHT = 480;
 	public static final int TARGET_FPS = 20;
 	public static final int TARGET_TICK = 1000 / TARGET_FPS;
 	
-	private static final String TITLE = "rolling";
+	private static final String TITLE = "Rolling";
 	
 	private static Render render;
 	private static boolean running;
@@ -28,16 +28,19 @@ public class Game {
 		initTextures();
 		initMenuScene();
 		render.setBackgroundColor(scene.getBackgroundColor());
-		
 		prevTime = System.currentTimeMillis();
+		int fnt = render.initNewFont("Arial", 20, 0);
 		while (running) {
-			scene.processScene(prevTime);
-			for (GameObject obj: scene.getObjects()) {
-				render.drawObject(obj);
-			}
-			for (TextObject tObj: scene.getTextObjects()) {
-				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
-			}
+//			render.drawText(fnt, 20, 20, "Text", 0x00FF00FF);
+			
+//			scene.processScene(prevTime);
+//			for (GameObject obj: scene.getObjects()) {
+//				render.drawObject(obj);
+//			}
+//			for (TextObject tObj: scene.getTextObjects()) {
+//				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
+//			}
+			
 			render.update();
 			if (render.isClosing()) {
 				running = false;

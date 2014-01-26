@@ -60,7 +60,7 @@ public class MenuScene extends Scene {
 			}
 		} else if (keyPressed[returnIndex]) {
 			if (selectedIndex == 0)
-				Game.initGameScene();
+				Game.initFinalScene();
 			else if (selectedIndex == 1)
 				Game.setGameOver();
 		} else if (keyPressed[escapeIndex]) {

@@ -14,7 +14,7 @@ public class GameScene extends Scene {
 	private static final int UI_COLOR = 0xFFFFFF;
 	
 	private static final float CLOUD_PROBABILITY = 1f;
-	private static final float PLANE_PROBABILITY = 0.5f;
+	private static final float PLANE_PROBABILITY = 0.0005f;
 	private static final float SCENE_MULTIPLIER = 2;
 	private static final float PATH_MULTIPLIER = 100;
 	
@@ -41,8 +41,8 @@ public class GameScene extends Scene {
 		player1.setY((Game.HEIGHT - player1.getHeight()) / 2);
 		
 		player2 = new Player2();
-		player2.setX((Game.WIDTH - player1.getWidth()) / 4 * 3);
-		player2.setY((Game.WIDTH - player1.getWidth()) / 2);
+		player2.setX((Game.WIDTH - player2.getWidth()) / 4 + 10);
+		player2.setY((Game.WIDTH - player2.getWidth()) / 2 + 10);
 		
 		appendGameObject(player1);
 		appendGameObject(player2);
@@ -60,7 +60,7 @@ public class GameScene extends Scene {
 		if (!player2.getHit()) {
 			detectCollisions(player2);
 		}
-		collectOutObjects();
+//		collectOutObjects();
 		generateTrash(player1);
 		generateTrash(player2);
 		

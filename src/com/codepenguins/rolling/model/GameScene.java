@@ -14,8 +14,8 @@ public class GameScene extends Scene {
 	private static final int BACKGROUND = 0xC0C0E0;
 	private static final int UI_COLOR = 0xFFFFFF;
 	
-	private static final float CLOUD_PROBABILITY = 1f;
-	private static final float PLANE_PROBABILITY = 0.0005f;
+	private static final float CLOUD_PROBABILITY = 0.5f;
+	private static final float PLANE_PROBABILITY = 0.05f;
 	private static final float SCENE_MULTIPLIER = 2;
 	private static final float PATH_MULTIPLIER = 100;
 	
@@ -129,12 +129,10 @@ public class GameScene extends Scene {
 	private void generateCloud() {
 		boolean right = Math.random() > 0.5;
 		Cloud cloud = new Cloud(right);
-		cloud.setY(getRandomY(-Game.HEIGHT, sceneBottom));
-		if (cloud.getY() > Game.HEIGHT || cloud.getY() + cloud.getHeight() < 0) {
-			cloud.setX(getRandomX());
-		} else {
-			cloud.setX(right ? sceneRight : sceneLeft);
-		}
+		Player choosen = getChoosenPlayer();
+		
+		cloud.setY(choosen.getY() + Game.HEIGHT / 2);
+		cloud.setX(getRandomX(choosen));
 		prependGameObject(cloud);
 	}
 
@@ -144,24 +142,30 @@ public class GameScene extends Scene {
 		Plane.Type type = Plane.Type.values()[typeIndex];
 		boolean right = Math.random() > 0.5;
 		Plane plane = new Plane(type, right);
-		if (type == Plane.Type.PLANE || type == Plane.Type.DUCK
-				|| type == Plane.Type.ZEPPELIN) {
-			plane.setY(getRandomY());
-			if (plane.getY() > Game.HEIGHT) {
-				plane.setX(getRandomX());
-			} else {
-				plane.setX(right ? sceneRight: sceneLeft);
-			}
-			appendGameObject(plane);
-		} else if (type == Plane.Type.MUNGH) {
-			plane.setX(getRandomY());
-			plane.setY(sceneBottom);
-			appendGameObject(plane);
-		}
+		Player choosen = getChoosenPlayer();
+		plane.setY(choosen.getY() + Game.HEIGHT / 2);
+		plane.setX(getRandomX(choosen));
+		appendGameObject(plane);
 	}
 
-	private int getRandomX() {
-		return (int) (Math.random() * Game.WIDTH * SCENE_MULTIPLIER + sceneLeft);
+	private Player getChoosenPlayer() {
+		if (Math.abs(player1.getX() - player2.getX()) > Game.WIDTH) {
+			if (Math.random() > 0.5) {
+				return player1; 
+			} else {
+				return player2;
+			}
+		} else {
+			if (player1.getY() > player2.getY()) {
+				return player1;
+			} else {
+				return player2;
+			}
+		}
+	}
+	
+	private int getRandomX(Player player) {
+		return (int) (Math.random() * Game.WIDTH / 2 - Game.WIDTH / 4 + player.getX());
 	}
 
 	private int getRandomY() {

@@ -73,9 +73,9 @@ public class Game {
 				render.setCameraAngle(camAngle);
 
 				for (GameObject obj: scene.getObjects()) {
-					if (obj != player) {
+//					if (obj != player) {
 						render.drawObject(obj);
-					}
+//					}
 				}
 				
 				render.setCameraAngle(-camAngle);
@@ -97,9 +97,9 @@ public class Game {
 				render.setCameraAngle(camAngle);
 
 				for (GameObject obj: scene.getObjects()) {
-					if (obj != player) {
+//					if (obj != player) {
 						render.drawObject(obj);
-					}
+//					}
 				}
 				
 				render.setCameraAngle(-camAngle);

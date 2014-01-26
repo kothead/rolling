@@ -19,8 +19,8 @@ import com.codepenguins.rolling.model.UiObject;
 
 public class Game {
 	
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 480;
+	public static final int WIDTH = 700;
+	public static final int HEIGHT = 450;
 	public static final int TARGET_FPS = 60;
 	public static final int FONT_SIZE_LARGE = 24;
 	public static final int TARGET_TICK = 1000 / TARGET_FPS;
@@ -47,15 +47,15 @@ public class Game {
 		initMenuScene();
 		prevTime = System.currentTimeMillis();
 		
+		float camAngle = 0.0f;
 		while (running) {
 			scene.processScene(tick);
 			render.setBackgroundColor(scene.getBackgroundColor());
 			
 			if (scene instanceof GameScene) {
-				
+				camAngle += 1;
 				GameScene gameScene = (GameScene) scene;
 				GameObject player = null;
-				float camAngle = 0.0f;
 				float alpha = 1.0f;
 				
 				/* Game scene LEFT
@@ -66,19 +66,19 @@ public class Game {
 				
 				alpha = 1 - player.getPlayerSpeed() / 50;
 				render.drawBackground(alpha);
-				camAngle = player.getPlayerAngle();
+//				camAngle = player.getPlayerAngle();
 				
 				render.saveMatrix();
 				render.setCameraPos(-player.getX() - 100, -player.getY() - 64);
 				render.setCameraAngle(camAngle);
-
+				
 				for (GameObject obj: scene.getObjects()) {
-//					if (obj != player) {
+					if (obj != player) {
 						render.drawObject(obj);
-//					}
+					}
 				}
 				
-				render.setCameraAngle(-camAngle);
+//				render.setCameraAngle(-camAngle);
 				render.drawObject(player);
 				render.loadMatrix();
 				
@@ -90,19 +90,19 @@ public class Game {
 				
 				alpha = 1 - player.getPlayerSpeed() / 50;
 				render.drawBackground(alpha);
-				camAngle = player.getPlayerAngle();
+//				camAngle = player.getPlayerAngle();
 				
 				render.saveMatrix();
 				render.setCameraPos(-player.getX() - 100, -player.getY() - 64);
 				render.setCameraAngle(camAngle);
 
 				for (GameObject obj: scene.getObjects()) {
-//					if (obj != player) {
+					if (obj != player) {
 						render.drawObject(obj);
-//					}
+					}
 				}
 				
-				render.setCameraAngle(-camAngle);
+//				render.setCameraAngle(-camAngle);
 				render.drawObject(player);
 				render.loadMatrix();
 				

@@ -50,7 +50,7 @@ public class Game {
 			
 			if (scene instanceof GameScene) {
 				GameScene gameScene = (GameScene) scene;
-				GameObject player = gameScene.getPlayer();
+				GameObject player = gameScene.getPlayer1();
 				camAngle = player.getPlayerAngle();
 				alpha = 1 - player.getPlayerSpeed() / 50; 
 			}

@@ -21,8 +21,7 @@ public class GameScene extends Scene {
 	private static final String KILOMETERS = "MILES";
 	
 	private TextObject pathText;
-	private UiObject[] hearts;
-	private Player player;
+	private Player player1, player2;
 	private int path;
 	private int sceneLeft;
 	private int sceneTop;
@@ -37,20 +36,15 @@ public class GameScene extends Scene {
 		sceneTop = (int) (0 - Game.HEIGHT / multiplier);
 		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
 		new Sound("res/game.wav");
-		player = new Player();
-		player.setX((Game.WIDTH - player.getWidth()) / 2);
-		player.setY((Game.HEIGHT - player.getHeight()) / 2);
-		appendGameObject(player);
-	
-		hearts = new UiObject[player.getLifes()];
-		for (int i = 0; i < hearts.length; i++) {
-			UiObject heart = new UiObject(8);
-			heart.setY(20);
-			heart.setX(Game.WIDTH - (heart.getWidth() + 10) * (i + 1));
-			hearts[i] = heart;
-			appendGameObject(heart);
-		}
+		player1 = new Player1();
+		player1.setX((Game.WIDTH - player1.getWidth()) / 2);
+		player1.setY((Game.HEIGHT - player1.getHeight()) / 2);
 		
+		player2 = new Player2();
+		
+		appendGameObject(player1);
+		appendGameObject(player2);
+	
 		pathText = new TextObject(20, 20, getPathLine(), UI_COLOR, 0);
 		addTextObject(pathText);
 	}
@@ -58,12 +52,15 @@ public class GameScene extends Scene {
 	@Override
 	public void processScene(long tick) {
 		super.processScene(tick);
-		updateObjectsPosition();
-		if (!player.getHit()) {
-			detectCollisions();
+		if (!player1.getHit()) {
+			detectCollisions(player1);
+		}
+		if (!player2.getHit()) {
+			detectCollisions(player2);
 		}
 		collectOutObjects();
-		generateTrash();
+		generateTrash(player1);
+		generateTrash(player2);
 		
 		boolean[] keyPressed = UserEvents.getKeyPressed();
 		if (keyPressed[Game.ESCAPE_INDEX]) {
@@ -73,21 +70,15 @@ public class GameScene extends Scene {
 		pathText.setText(getPathLine());
 	}
 
-	public Player getPlayer() {
-		return player;
+	public Player getPlayer1() {
+		return player1;
 	}
 	
-	private void updateObjectsPosition() {
-		for (GameObject object: getObjects()) {
-			if (!(object instanceof Player) && !(object instanceof UiObject)) {
-				object.setX(object.getX() - player.getVX());
-				object.setY(object.getY() - player.getVY());
-			}
-		}
-		path += player.getVY();
+	public Player getPlayer2() {
+		return player2;
 	}
-
-	private void detectCollisions() {
+	
+	private void detectCollisions(Player player) {
 		float x1 = player.getX() + player.getWidth() * Player.SPRITE_THRESHOLD;
 		float x2 = player.getX() + player.getWidth() * (1 - Player.SPRITE_THRESHOLD);
 		float y1 = player.getY() + player.getWidth() * Player.SPRITE_THRESHOLD;
@@ -104,13 +95,8 @@ public class GameScene extends Scene {
 				if (ox2 >= x1 && ox1 <= x2 && oy2 >= y1 && oy1 <= y2) {
 					player.setVX(-player.getVX() + plane.getVX());
 					player.setVY(-player.getVY() + plane.getVY());
-					player.setVA(10); // TODO
+					player.setVA(10);
 					player.setHit(true);
-					/*if (player.getLifes() > 0) {
-						deleteGameObject(hearts[player.getLifes()]);
-					} else {
-						Game.setGameOver();
-					}*/
 					return;
 				}
 			}
@@ -129,7 +115,7 @@ public class GameScene extends Scene {
 		}
 	}
 
-	private void generateTrash() {
+	private void generateTrash(Player player) {
 		double cloudProb = Math.random();
 		double calcProb = 1 + Math.max(Math.abs(player.getX()), Math.abs(player.getVY())) / Player.MAX_SPEED; 
 		if (cloudProb < calcProb * CLOUD_PROBABILITY / Game.TARGET_FPS) {

@@ -30,5 +30,9 @@ public class UserEvents {
 		keyDowned[3] = Keyboard.isKeyDown(Keyboard.KEY_RIGHT);
 		keyDowned[4] = Keyboard.isKeyDown(Keyboard.KEY_RETURN);
 		keyDowned[5] = Keyboard.isKeyDown(Keyboard.KEY_ESCAPE);
+		keyDowned[6] = Keyboard.isKeyDown(Keyboard.KEY_W);
+		keyDowned[7] = Keyboard.isKeyDown(Keyboard.KEY_A);
+		keyDowned[8] = Keyboard.isKeyDown(Keyboard.KEY_S);
+		keyDowned[9] = Keyboard.isKeyDown(Keyboard.KEY_D);
 	}
 }

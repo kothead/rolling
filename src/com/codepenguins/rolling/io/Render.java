@@ -1,6 +1,7 @@
 package com.codepenguins.rolling.io;
 
 import com.codepenguins.rolling.model.GameObject;
+import com.codepenguins.rolling.Game;
 
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.LWJGLException;
@@ -15,8 +16,8 @@ import org.newdawn.slick.TrueTypeFont;
 
 public class Render {
 	private static Textures Tex;
-	private static float cameraAngle;
 	private ArrayList<TrueTypeFont> fonts;
+	private float[] clearColor = new float[4];
 	
 	
 	/* =============
@@ -28,7 +29,6 @@ public class Render {
 		setStartGLSettings(width, height);
 		fonts = new ArrayList<TrueTypeFont>();
 		Tex = new Textures();
-		cameraAngle = 0;
 	}
 	
 	
@@ -37,8 +37,8 @@ public class Render {
 	 */
 	
 	public void setBackgroundColor(int color) {
-		float[] rgba = colorIntToFloat(color);
-		glClearColor(rgba[0], rgba[1], rgba[2], rgba[3]);
+		clearColor = colorIntToFloat(color);
+		glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
 	}
 	
 	public int initTexture(String fileName) {
@@ -49,9 +49,23 @@ public class Render {
 		return number;
 	}
 	
+	public void drawBackground(float alpha) {
+		glDisable(GL_TEXTURE_2D);
+		glColor4f(clearColor[0], clearColor[1], clearColor[2], alpha);
+		glBegin(GL_QUADS);
+			glVertex3f(0, 0, -1);
+			glVertex3f(0, Game.HEIGHT, -1);
+			glVertex3f(Game.WIDTH, Game.HEIGHT, -1);
+			glVertex3f(Game.WIDTH, 0, -1);
+		glEnd();
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		glEnable(GL_TEXTURE_2D);
+	}
+	
 	public void drawObject(GameObject obj) {
 		Tex.getTexture(obj.getTextureId()).bind();
-		glBegin(GL_QUADS);
+		if (false) {
+			glBegin(GL_QUADS);
 			glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 0);
 			glVertex3f(obj.getX(), obj.getY(), -1);
 			glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 1);
@@ -60,7 +74,19 @@ public class Render {
 			glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
 			glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 0);
 			glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
-		glEnd();
+			glEnd();
+		} else {
+			glBegin(GL_QUADS);
+			glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 0);
+			glVertex3f(obj.getX(), obj.getY(), -1);
+			glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 1);
+			glVertex3f(obj.getX(), obj.getY()+obj.getHeight(), -1);
+			glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 1);
+			glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
+			glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 0);
+			glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
+			glEnd();
+		}
 	}
 	
 	public void drawText(int id, float x, float y, String text, int color) {
@@ -70,15 +96,19 @@ public class Render {
 		fonts.get(id).drawString(x, y, text, clr);
 	}
 	
-	public void update() {
-		glPopMatrix();
+	public void update(float alpha) {
 		Display.update();
 		Display.sync(60);
-		startNewFrame();
+		startNewFrame(alpha);
 	}
 	
 	public void setCameraAngle(float angle) {
-		cameraAngle = angle;
+		glPushMatrix();
+		float x = Game.WIDTH / 2;
+		float y = Game.HEIGHT / 2 - 32;
+		glTranslatef(x, y, 0);
+		glRotatef(angle, 0.0f, 0.0f, 1.0f);
+		glTranslatef(-x, -y, 0);
 	}
 	
 	public int initNewFont(String fontName, int size, int style) {
@@ -88,6 +118,10 @@ public class Render {
 	
 	public boolean isClosing() {
 		return Display.isCloseRequested();
+	}
+	
+	public void setNullRotate() {
+		glPopMatrix();
 	}
 	
 	
@@ -128,13 +162,12 @@ public class Render {
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		
-		startNewFrame();
+		startNewFrame(1);
 	}
 
-	private void startNewFrame() {
-		glClear(GL_COLOR_BUFFER_BIT);
-		glPushMatrix();
-		glRotatef(cameraAngle, 0.0f, 0.0f, 1.0f);
+	private void startNewFrame(float alpha) {
+//		glClear(GL_COLOR_BUFFER_BIT);
+		drawBackground(alpha);
 	}
 	
 	private float[] colorIntToFloat(long color) {

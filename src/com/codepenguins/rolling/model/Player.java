@@ -9,16 +9,15 @@ public class Player extends GameObject {
 	public static final float SPRITE_THRESHOLD = 0.3f;
 	
 	private static final int TEXTURE_ID = 7;
-	private static final int MIN_SPEED = 5;
+	private static final int MIN_SPEED = 0;
 	private static final int MAX_ANGLE_SPEED = 10;
 	private static final float INC_CONTROL = 0.5f;
-	private static final float DEFAULT_VA = 1;
 	private static final float G = 0.1f;
+	private static final float ROTATE_ACCELERATION = 0.95f;
 	
 	private static final int ANIM_SPEED = 100;
 	private static final int RECOVERY_SPEED = 500;
 	
-	private float angle;
 	private float vx;
 	private float vy;
 	private float va;
@@ -34,7 +33,11 @@ public class Player extends GameObject {
 	public void process(long tick) {
 		processControl();
 		vy += G;
+		va *= ROTATE_ACCELERATION;
 		validateV();
+		
+		setPlayerAngle(getPlayerAngle() + va);
+		setPlayerSpeed(Math.abs(vx)+Math.abs(vy));
 		
 		animCounter += Game.TARGET_TICK;
 		if (animCounter > ANIM_SPEED) {
@@ -52,14 +55,6 @@ public class Player extends GameObject {
 		}
 	}
 	
-	public float getAngle() {
-		return angle;
-	}
-	
-	public void setAngle(float angle) {
-		this.angle = angle;
-	}
-	
 	public float getVX() {
 		return vx;
 	}
@@ -68,12 +63,20 @@ public class Player extends GameObject {
 		return vy;
 	}
 	
+	public float getVA() {
+		return va;
+	}
+	
 	public void setVX(float vx) {
 		this.vx = vx;
 	}
 	
 	public void setVY(float vy) {
 		this.vy = vy;
+	}
+	
+	public void setVA(float va) {
+		this.va = va;
 	}
 
 	public boolean getHit() {
@@ -114,6 +117,12 @@ public class Player extends GameObject {
 		}
 		if (vy < - MAX_SPEED) {
 			vy = - MAX_SPEED;
+		}
+		if (va > MAX_SPEED) {
+			va = MAX_ANGLE_SPEED;
+		}
+		if (va < - MAX_SPEED) {
+			va = - MAX_ANGLE_SPEED;
 		}
 	}
 }

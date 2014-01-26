@@ -6,6 +6,8 @@ public abstract class GameObject {
 	// 1 - count of frames in texture
 	private static int[][] frames;
 	
+	private float player_angle = 0;
+	private float player_speed = 0;
 	private float x;
 	private float y;
 	private float width;
@@ -76,5 +78,21 @@ public abstract class GameObject {
 				frameId = 0;
 			}
 		}
+	}
+	
+	public float getPlayerAngle() {
+		return player_angle;
+	}
+	
+	public void setPlayerAngle(float angle) {
+		this.player_angle = angle;
+	}
+	
+	public float getPlayerSpeed() {
+		return player_speed;
+	}
+	
+	public void setPlayerSpeed(float speed) {
+		this.player_speed = speed;
 	}
 }

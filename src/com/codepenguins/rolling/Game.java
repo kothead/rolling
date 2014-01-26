@@ -1,11 +1,10 @@
 package com.codepenguins.rolling;
 
 import com.codepenguins.rolling.io.Render;
-import com.codepenguins.rolling.model.Cloud;
 import com.codepenguins.rolling.model.GameObject;
 import com.codepenguins.rolling.model.GameScene;
 import com.codepenguins.rolling.model.MenuScene;
-import com.codepenguins.rolling.model.Plane;
+import com.codepenguins.rolling.model.Player;
 import com.codepenguins.rolling.model.Scene;
 import com.codepenguins.rolling.model.TextObject;
 
@@ -13,7 +12,7 @@ public class Game {
 	
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 480;
-	public static final int TARGET_FPS = 40;
+	public static final int TARGET_FPS = 60;
 	public static final int FONT_SIZE_LARGE = 24;
 	public static final int TARGET_TICK = 1000 / TARGET_FPS;
 	public static final int UP_INDEX = 0;
@@ -41,14 +40,31 @@ public class Game {
 		
 		while (running) {
 			scene.processScene(tick);
-			for (GameObject obj: scene.getObjects()) {
-				render.drawObject(obj);
+			
+			float camAngle = 0;
+			float alpha = 1.0f;
+			GameObject player = scene.getPlayer();
+			if (player != null) {
+				camAngle = player.getPlayerAngle();
+				alpha = 1 - player.getPlayerSpeed() / 50; 
 			}
+			render.setCameraAngle(camAngle);
+			
+			for (GameObject obj: scene.getObjects()) {
+				if (!(obj instanceof Player)) {
+					render.drawObject(obj);
+				}
+			}
+			
+			render.setNullRotate();
+			if (player != null) render.drawObject(player);
+			
 			for (TextObject tObj: scene.getTextObjects()) {
 				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
 			}
 			
-			render.update();
+			
+			render.update(alpha);
 			if (render.isClosing()) {
 				running = false;
 			}

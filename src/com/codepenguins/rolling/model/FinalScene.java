@@ -1,6 +1,7 @@
 package com.codepenguins.rolling.model;
 
 import com.codepenguins.rolling.Game;
+import com.codepenguins.rolling.io.UserEvents;
 
 public class FinalScene extends Scene {
 
@@ -10,7 +11,7 @@ public class FinalScene extends Scene {
 	private final int FONT_ID = 0;
 	
 	private final String WIN = "You won!";
-	private final String LOSE = "You lost!";
+	private final String LOSE = "You failed!";
 	private String text = "";
 	private int color;
 	
@@ -22,14 +23,18 @@ public class FinalScene extends Scene {
 			text = LOSE;
 			color = COLOR;
 		}
+		int x = Game.WIDTH / 4 - 50;
+		int y = Game.HEIGHT / 2;
+		addTextObject(new TextObject(x, y, text, color, FONT_ID));
+		setBackgroundColor(BACKGROUND);
 	}
 	
 	@Override
 	public void processScene(long tick) {
 		super.processScene(tick);
-		int x = Game.WIDTH / 2;
-		int y = Game.HEIGHT / 2;
-		addTextObject(new TextObject(x, y, text, color, FONT_ID));
-		setBackgroundColor(BACKGROUND);
+		boolean[] keyPressed = UserEvents.getKeyPressed();
+		if (keyPressed[Game.ESCAPE_INDEX]) {
+			Game.setGameOver();
+		}
 	}
 }

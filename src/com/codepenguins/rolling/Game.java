@@ -102,7 +102,7 @@ public class Game {
 	}
 	
 	public static void initFinalScene() {
-		scene = new FinalScene();
+		scene = new FinalScene(true);
 		render.setBackgroundColor(scene.getBackgroundColor());
 	}
 	
@@ -124,7 +124,8 @@ public class Game {
 				{render.initTexture("res/Munhgauzen.png"), 1, 58, 85},
 				{render.initTexture("res/tiltrotor.png"), 2, 128, 57}, 
 				{render.initTexture("res/char_big.png"), 6, 170, 172},
-				{render.initTexture("res/heart.png"), 1, 30, 30}
+				{render.initTexture("res/heart.png"), 1, 30, 30},
+				{render.initTexture("res/menu_background.png"), 1, 854, 480}
 		});
 		
 		TextObject.setFonts(new int[] {

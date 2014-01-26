@@ -15,7 +15,7 @@ public class Player extends GameObject {
 	private static final int MAX_ANGLE_SPEED = 10;
 	private static final float INC_CONTROL = 0.5f;
 	private static final float G = 0.1f;
-	private static final float ROTATE_ACCELERATION = 0.95f;
+	private static final float ROTATE_ACCELERATION = 1.0f;
 	
 	private static final int ANIM_SPEED = 100;
 	private static final int RECOVERY_SPEED = 500;

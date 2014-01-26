@@ -100,12 +100,11 @@ public class Render {
 	public void update(float alpha) {
 		Display.update();
 		Display.sync(60);
-		startNewFrame(alpha);
 	}
 	
 	public void setCameraAngle(float angle) {
 		glPushMatrix();
-		float x = Game.WIDTH / 2;
+		float x = Game.WIDTH / 4;
 		float y = Game.HEIGHT / 2 - 32;
 		glTranslatef(x, y, 0);
 		glRotatef(angle, 0.0f, 0.0f, 1.0f);
@@ -155,20 +154,34 @@ public class Render {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-		glViewport(0, 0, width, height);
+		glClear(GL_COLOR_BUFFER_BIT);
+	}
+	
+	public void useViewportLeft() {
+		glViewport(0, 0, Game.WIDTH / 2, Game.HEIGHT);
 		glMatrixMode(GL_MODELVIEW);
-		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, width, height, 0, 1, -1);
+		glOrtho(0, Game.WIDTH / 2, Game.HEIGHT, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
-		
-		startNewFrame(1);
 	}
 
-	private void startNewFrame(float alpha) {
-//		glClear(GL_COLOR_BUFFER_BIT);
-		drawBackground(alpha);
+	public void useViewportRight() {
+		glViewport(Game.WIDTH / 2, 0, Game.WIDTH / 2, Game.HEIGHT);
+		glMatrixMode(GL_MODELVIEW);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, Game.WIDTH / 2, Game.HEIGHT, 0, 1, -1);
+		glMatrixMode(GL_MODELVIEW);
+	}
+	
+	public void useViewportFull() {
+		glViewport(0, 0, Game.WIDTH, Game.HEIGHT);
+		glMatrixMode(GL_MODELVIEW);
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glOrtho(0, Game.WIDTH, Game.HEIGHT, 0, 1, -1);
+		glMatrixMode(GL_MODELVIEW);
 	}
 	
 	private float[] colorIntToFloat(long color) {

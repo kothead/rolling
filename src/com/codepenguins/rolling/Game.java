@@ -46,39 +46,70 @@ public class Game {
 		while (running) {
 			scene.processScene(tick);
 			
+			// --- Draw left viewport ---  
+			
+			render.useViewportLeft();
+			
 			float camAngle = 0;
 			float alpha = 1.0f;
 			
+			GameObject player = null;
+			
 			if (scene instanceof GameScene) {
 				GameScene gameScene = (GameScene) scene;
-				GameObject player = gameScene.getPlayer();
+				player = gameScene.getPlayer();
 				camAngle = player.getPlayerAngle();
 				alpha = 1 - player.getPlayerSpeed() / 50; 
 			}
 			
+			render.drawBackground(alpha);
 			render.setCameraAngle(camAngle);
 			
-			List<GameObject> noRotate = new ArrayList<GameObject>();
 			for (GameObject obj: scene.getObjects()) {
 				if (!(obj instanceof Player) && !(obj instanceof UiObject)) {
 					render.drawObject(obj);
-				} else {
-					noRotate.add(obj);
 				}
 			}
 			
 			render.setNullRotate();
-			//if (player != null) render.drawObject(player);
-			for (GameObject obj: noRotate) {
-				render.drawObject(obj);
+			if (player != null) render.drawObject(player);
+			
+			for (TextObject tObj: scene.getTextObjects()) {
+				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
 			}
 			
+			// --- Draw right viewport ---  
+			
+			render.useViewportRight();
+				
+			camAngle = 0;
+			alpha = 1.0f;
+			if (player != null) {
+				camAngle = player.getPlayerAngle();
+				alpha = 1 - player.getPlayerSpeed() / 50; 
+			}
+						
+			render.drawBackground(alpha);
+			render.setCameraAngle(camAngle);
+						
+			for (GameObject obj: scene.getObjects()) {
+				if (!(obj instanceof Player)) {
+					render.drawObject(obj);
+				}
+			}
+						
+			render.setNullRotate();
+			if (player != null) render.drawObject(player);
+						
 			for (TextObject tObj: scene.getTextObjects()) {
 				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
 			}
 			
 			
 			render.update(alpha);
+			
+			// --- Draw end ---
+			
 			if (render.isClosing()) {
 				running = false;
 			}

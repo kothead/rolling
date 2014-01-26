@@ -1,6 +1,5 @@
 package com.codepenguins.rolling.model;
 
-import com.codepenguins.rolling.Game;
 
 public class Background extends GameObject {
 
@@ -12,7 +11,6 @@ public class Background extends GameObject {
 	
 	@Override
 	public void process(long tick) {
-		// TODO Auto-generated method stub
 		
 	}
 

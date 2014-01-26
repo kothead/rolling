@@ -1,5 +1,9 @@
 package com.codepenguins.rolling;
 
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glClearColor;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -38,83 +42,92 @@ public class Game {
 	
 	public static void main(String[] args) {
 		running = true;
-		render = new Render(WIDTH, HEIGHT, TITLE);
+		render = new Render(WIDTH, HEIGHT, TITLE);		
 		initTextures();
 		initMenuScene();
 		prevTime = System.currentTimeMillis();
 		
 		while (running) {
 			scene.processScene(tick);
-			
-			// --- Draw left viewport ---  
-			
-			render.useViewportLeft();
-			
-			float camAngle = 0;
-			float alpha = 1.0f;
-			
-			GameObject playerLeft = null;
-			GameObject playerRight = null;
+			render.setBackgroundColor(scene.getBackgroundColor());
 			
 			if (scene instanceof GameScene) {
-				GameScene gameScene = (GameScene) scene;
-				playerLeft = gameScene.getPlayer1();
-				playerRight = gameScene.getPlayer2();
-				camAngle = playerLeft.getPlayerAngle();
-				alpha = 1 - playerLeft.getPlayerSpeed() / 50; 
-			}
-			
-			render.drawBackground(alpha);
-			render.setCameraAngle(camAngle);
-			
-			for (GameObject obj: scene.getObjects()) {
-				if (!(obj instanceof Player) && !(obj instanceof UiObject)) {
-					render.drawObject(obj);
-				}
-			}
-			
-			render.setNullRotate();
-			if (playerLeft != null) render.drawObject(playerLeft);
-			
-			for (TextObject tObj: scene.getTextObjects()) {
-				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
-			}
-			
-			// --- Draw right viewport ---  
-			
-			render.useViewportRight();
 				
-			camAngle = 0;
-			alpha = 1.0f;
-			if (playerRight != null) {
-				camAngle = playerRight.getPlayerAngle();
-				alpha = 1 - playerRight.getPlayerSpeed() / 50; 
-			}
-						
-			render.drawBackground(alpha);
-			render.setCameraAngle(camAngle);
-						
-			for (GameObject obj: scene.getObjects()) {
-				if (!(obj instanceof Player)) {
+				GameScene gameScene = (GameScene) scene;
+				GameObject player = null;
+				float camAngle = 0.0f;
+				float alpha = 1.0f;
+				
+				/* Game scene LEFT
+				 **/
+				
+				player = gameScene.getPlayer1();
+				render.useViewportLeft();
+				
+				alpha = 1 - player.getPlayerSpeed() / 50;
+				render.drawBackground(alpha);
+				camAngle = player.getPlayerAngle();
+				
+				render.saveMatrix();
+				render.setCameraPos(-player.getX() - 100, -player.getY() - 64);
+				render.setCameraAngle(camAngle);
+
+				for (GameObject obj: scene.getObjects()) {
+					if (obj != player) {
+						render.drawObject(obj);
+					}
+				}
+				
+				render.setCameraAngle(-camAngle);
+				render.drawObject(player);
+				render.loadMatrix();
+				
+				/* Game scene RIGHT
+				 **/
+				
+				player = gameScene.getPlayer2();
+				render.useViewportRight();
+				
+				alpha = 1 - player.getPlayerSpeed() / 50;
+				render.drawBackground(alpha);
+				camAngle = player.getPlayerAngle();
+				
+				render.saveMatrix();
+				render.setCameraPos(-player.getX() - 100, -player.getY() - 64);
+				render.setCameraAngle(camAngle);
+
+				for (GameObject obj: scene.getObjects()) {
+					if (obj != player) {
+						render.drawObject(obj);
+					}
+				}
+				
+				render.setCameraAngle(-camAngle);
+				render.drawObject(player);
+				render.loadMatrix();
+				
+			} else {
+				
+				/* Game scene MENU
+				 **/
+				
+				render.useViewportFull();
+				render.drawBackground(1.0f);
+				
+				for (GameObject obj: scene.getObjects()) {
 					render.drawObject(obj);
 				}
-			}
-						
-			render.setNullRotate();
-			if (playerRight != null) render.drawObject(playerRight);
-						
-			for (TextObject tObj: scene.getTextObjects()) {
-				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
+				
+				for (TextObject tObj: scene.getTextObjects()) {
+					render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
+				}	
 			}
 			
-			
-			render.update(alpha);
-			
-			// --- Draw end ---
 			
 			if (render.isClosing()) {
 				running = false;
 			}
+			render.update();
 			try {
 				long sleep = calcSleep();
 				Thread.sleep(sleep);

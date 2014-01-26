@@ -11,8 +11,8 @@ public abstract class GameObject {
 	private float width;
 	private float height;
 	private int textureId;
-	private int frameCount;
-	private int frameId;
+	protected int frameCount;
+	protected int frameId;
 	
 	public static void setFrames(int[][] ids) {
 		frames = ids;

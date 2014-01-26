@@ -4,8 +4,8 @@ import com.codepenguins.rolling.Game;
 
 public class Plane extends GameObject {
 
-	private static final int TYPES_COUNT = 4;
-	enum Type { PLANE, ZEPPELIN, DUCK, MUNGH }
+	private static final int TYPES_COUNT = 3;// = 4;
+	enum Type { PLANE, ZEPPELIN, DUCK/*, MUNGH */}
 
 	private static final int MIN_SPEED = 1;
 	private static final int MAX_SPEED = 10;
@@ -37,11 +37,11 @@ public class Plane extends GameObject {
 		} else if (type == Type.ZEPPELIN) {
 			vY = 0;
 			setCurrentTexture(ZEPPELIN_TEXTURE);
-		} else if (type == Type.MUNGH) {
+		}/* else if (type == Type.MUNGH) {
 			vY = -vY;
 			vX = 0;
 			setCurrentTexture(MUNGH_TEXTURE);
-		}
+		}*/
 	}
 
 

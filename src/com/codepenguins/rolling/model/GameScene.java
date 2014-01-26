@@ -3,6 +3,7 @@ package com.codepenguins.rolling.model;
 import java.util.List;
 
 import sun.awt.geom.AreaOp.AddOp;
+import sun.dc.pr.PathStroker;
 
 import com.codepenguins.rolling.Game;
 import com.codepenguins.rolling.io.Sound;
@@ -13,16 +14,20 @@ public class GameScene extends Scene {
 	private static final int BACKGROUND = 0xC0C0E0;
 	private static final int UI_COLOR = 0xFFFFFF;
 	
+	private static final int UPPER_BOUND = 500;
+	private static final int LOWER_BOUND = -100;
 	private static final float CLOUD_PROBABILITY = 1f;
-	private static final float PLANE_PROBABILITY = 0.5f;
+	private static final float PLANE_PROBABILITY = 0.1f;
+	private static final float PLANE_PROB_INC = 0.001f;
 	private static final float SCENE_MULTIPLIER = 2;
 	private static final float PATH_MULTIPLIER = 100;
 	
 	private static final String KILOMETERS = "MILES";
 	
 	private TextObject pathText;
-	private UiObject[] hearts;
+	//private UiObject[] hearts;
 	private Player player;
+	private float currentProb = PLANE_PROBABILITY;
 	private int path;
 	private int sceneLeft;
 	private int sceneTop;
@@ -42,14 +47,14 @@ public class GameScene extends Scene {
 		player.setY((Game.HEIGHT - player.getHeight()) / 2);
 		appendGameObject(player);
 	
-		hearts = new UiObject[player.getLifes()];
+		/*hearts = new UiObject[player.getLifes()];
 		for (int i = 0; i < hearts.length; i++) {
 			UiObject heart = new UiObject(8);
 			heart.setY(20);
 			heart.setX(Game.WIDTH - (heart.getWidth() + 10) * (i + 1));
 			hearts[i] = heart;
 			appendGameObject(heart);
-		}
+		}*/
 		
 		pathText = new TextObject(20, 20, getPathLine(), UI_COLOR, 0);
 		addTextObject(pathText);
@@ -71,8 +76,20 @@ public class GameScene extends Scene {
 		}
 		
 		pathText.setText(getPathLine());
+		checkGameOver();
 	}
 
+	public void checkGameOver() {
+		int miles = (int) (path / PATH_MULTIPLIER); 
+		if (miles <= LOWER_BOUND) {
+			Game.initFinalScene(false);
+		} else if (miles >= UPPER_BOUND) {
+			Game.initFinalScene(true);
+		} else {
+			currentProb += PLANE_PROB_INC;
+		}
+	}
+	
 	public Player getPlayer() {
 		return player;
 	}
@@ -136,7 +153,7 @@ public class GameScene extends Scene {
 			generateCloud();
 		}
 		double planeProb = Math.random();
-		if (planeProb < calcProb * PLANE_PROBABILITY / Game.TARGET_FPS) {
+		if (planeProb < calcProb * currentProb / Game.TARGET_FPS) {
 			generatePlane();
 		}
 	}
@@ -168,11 +185,11 @@ public class GameScene extends Scene {
 				plane.setX(right ? sceneRight: sceneLeft);
 			}
 			appendGameObject(plane);
-		} else if (type == Plane.Type.MUNGH) {
+		}/* else if (type == Plane.Type.MUNGH) {
 			plane.setX(getRandomY());
 			plane.setY(sceneBottom);
 			appendGameObject(plane);
-		}
+		}*/
 	}
 
 	private int getRandomX() {

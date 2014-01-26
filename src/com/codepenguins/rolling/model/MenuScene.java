@@ -25,6 +25,8 @@ public class MenuScene extends Scene {
 	int escapeIndex = 5;
 
 	public MenuScene() {
+		Background back = new Background();
+		prependGameObject(back);
 		int x = getXcoord();
 		int y0 = getYcoord(0);
 		addTextObject(new TextObject(x, y0, START_GAME, SELECTED_COLOR, FONT_ID));

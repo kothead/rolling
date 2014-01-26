@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.codepenguins.rolling.io.Render;
+import com.codepenguins.rolling.model.FinalScene;
 import com.codepenguins.rolling.model.GameObject;
 import com.codepenguins.rolling.model.GameScene;
 import com.codepenguins.rolling.model.MenuScene;
@@ -97,6 +98,11 @@ public class Game {
 	
 	public static void initGameScene() {
 		scene = new GameScene();
+		render.setBackgroundColor(scene.getBackgroundColor());
+	}
+	
+	public static void initFinalScene() {
+		scene = new FinalScene();
 		render.setBackgroundColor(scene.getBackgroundColor());
 	}
 	

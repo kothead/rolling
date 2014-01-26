@@ -15,6 +15,7 @@ public class MenuScene extends Scene {
 	
 	private final String START_GAME = "START";
 	private final String EXIT_GAME = "EXIT";
+	private final String ROLLING = "ROLLING";
 	
 	int selectedIndex = 0;
 	int buttonsNum = 2;
@@ -30,6 +31,9 @@ public class MenuScene extends Scene {
 		addTextObject(new TextObject(x, y0, START_GAME, SELECTED_COLOR, FONT_ID));
 		int y1 = getYcoord(1);
 		addTextObject(new TextObject(x, y1, EXIT_GAME, COLOR, FONT_ID));
+		int x2 = getTitleXcoord();
+		int y2 = getTitleYcoord();
+		addTextObject(new TextObject(x2, y2, ROLLING, COLOR, FONT_ID));
 		setBackgroundColor(BACKGROUND);
 		new Sound("res/intro.wav");
 	}
@@ -73,6 +77,16 @@ public class MenuScene extends Scene {
 	
 	private int getYcoord(int position) {
 		int y = (int) (Game.HEIGHT * 0.7f + position * (Game.FONT_SIZE_LARGE + 20));
+		return y;
+	}
+	
+	private int getTitleXcoord() {
+		int x = (int) (Game.WIDTH * 0.45f);
+		return x;
+	}
+	
+	private int getTitleYcoord() {
+		int y = (int) (Game.HEIGHT * 0.3f);
 		return y;
 	}
 

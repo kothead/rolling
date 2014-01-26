@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 import com.codepenguins.rolling.io.Render;
+import com.codepenguins.rolling.model.FinalScene;
 import com.codepenguins.rolling.model.GameObject;
 import com.codepenguins.rolling.model.GameScene;
 import com.codepenguins.rolling.model.MenuScene;
@@ -45,39 +46,72 @@ public class Game {
 		while (running) {
 			scene.processScene(tick);
 			
+			// --- Draw left viewport ---  
+			
+			render.useViewportLeft();
+			
 			float camAngle = 0;
 			float alpha = 1.0f;
 			
+			GameObject playerLeft = null;
+			GameObject playerRight = null;
+			
 			if (scene instanceof GameScene) {
 				GameScene gameScene = (GameScene) scene;
-				GameObject player = gameScene.getPlayer1();
-				camAngle = player.getPlayerAngle();
-				alpha = 1 - player.getPlayerSpeed() / 50; 
+				playerLeft = gameScene.getPlayer1();
+				playerRight = gameScene.getPlayer2();
+				camAngle = playerLeft.getPlayerAngle();
+				alpha = 1 - playerLeft.getPlayerSpeed() / 50; 
 			}
 			
+			render.drawBackground(alpha);
 			render.setCameraAngle(camAngle);
 			
-			List<GameObject> noRotate = new ArrayList<GameObject>();
 			for (GameObject obj: scene.getObjects()) {
 				if (!(obj instanceof Player) && !(obj instanceof UiObject)) {
 					render.drawObject(obj);
-				} else {
-					noRotate.add(obj);
 				}
 			}
 			
 			render.setNullRotate();
-			//if (player != null) render.drawObject(player);
-			for (GameObject obj: noRotate) {
-				render.drawObject(obj);
+			if (playerLeft != null) render.drawObject(playerLeft);
+			
+			for (TextObject tObj: scene.getTextObjects()) {
+				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
 			}
 			
+			// --- Draw right viewport ---  
+			
+			render.useViewportRight();
+				
+			camAngle = 0;
+			alpha = 1.0f;
+			if (playerRight != null) {
+				camAngle = playerRight.getPlayerAngle();
+				alpha = 1 - playerRight.getPlayerSpeed() / 50; 
+			}
+						
+			render.drawBackground(alpha);
+			render.setCameraAngle(camAngle);
+						
+			for (GameObject obj: scene.getObjects()) {
+				if (!(obj instanceof Player)) {
+					render.drawObject(obj);
+				}
+			}
+						
+			render.setNullRotate();
+			if (playerRight != null) render.drawObject(playerRight);
+						
 			for (TextObject tObj: scene.getTextObjects()) {
 				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());
 			}
 			
 			
 			render.update(alpha);
+			
+			// --- Draw end ---
+			
 			if (render.isClosing()) {
 				running = false;
 			}
@@ -97,6 +131,11 @@ public class Game {
 	
 	public static void initGameScene() {
 		scene = new GameScene();
+		render.setBackgroundColor(scene.getBackgroundColor());
+	}
+	
+	public static void initFinalScene() {
+		scene = new FinalScene();
 		render.setBackgroundColor(scene.getBackgroundColor());
 	}
 	

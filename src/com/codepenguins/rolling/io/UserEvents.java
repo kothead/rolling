@@ -3,7 +3,7 @@ package com.codepenguins.rolling.io;
 import org.lwjgl.input.Keyboard;
 
 public class UserEvents {
-	private static final int buttonCount = 6;
+	private static final int buttonCount = 10;
 	private static boolean[] keyDownedOld = new boolean[buttonCount];
 	private static boolean[] keyDowned = new boolean[buttonCount];
 	private static boolean[] keyPressed = new boolean[buttonCount];

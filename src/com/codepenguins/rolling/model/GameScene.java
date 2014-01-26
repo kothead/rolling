@@ -37,10 +37,12 @@ public class GameScene extends Scene {
 		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
 		new Sound("res/game.wav");
 		player1 = new Player1();
-		player1.setX((Game.WIDTH - player1.getWidth()) / 2);
+		player1.setX((Game.WIDTH - player1.getWidth()) / 4);
 		player1.setY((Game.HEIGHT - player1.getHeight()) / 2);
 		
 		player2 = new Player2();
+		player2.setX((Game.WIDTH - player1.getWidth()) / 4 * 3);
+		player2.setY((Game.WIDTH - player1.getWidth()) / 2);
 		
 		appendGameObject(player1);
 		appendGameObject(player2);

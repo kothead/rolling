@@ -19,6 +19,7 @@ public abstract class Player extends GameObject {
 	private static final int ANIM_SPEED = 100;
 	private static final int RECOVERY_SPEED = 500;
 	
+	private TextObject score;
 	protected float vx;
 	protected float vy;
 	private float va;
@@ -29,6 +30,15 @@ public abstract class Player extends GameObject {
 	
 	public Player() {
 		setCurrentTexture(TEXTURE_ID);
+		score = new TextObject(20, 20, "", 0xFFFFFF, 0);
+	}
+	
+	public TextObject getScore() {
+		return score;
+	}
+	
+	public void updateScore(String score) {
+		this.score.setText(score);
 	}
 	
 	@Override

@@ -7,6 +7,7 @@ import sun.awt.geom.AreaOp.AddOp;
 import com.codepenguins.rolling.Game;
 import com.codepenguins.rolling.io.Sound;
 import com.codepenguins.rolling.io.UserEvents;
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 public class GameScene extends Scene {
 
@@ -20,9 +21,7 @@ public class GameScene extends Scene {
 	
 	private static final String KILOMETERS = "MILES";
 	
-	private TextObject pathText;
 	private Player player1, player2;
-	private int path;
 	private int sceneLeft;
 	private int sceneTop;
 	private int sceneRight;
@@ -46,9 +45,6 @@ public class GameScene extends Scene {
 		
 		appendGameObject(player1);
 		appendGameObject(player2);
-	
-		pathText = new TextObject(20, 20, getPathLine(), UI_COLOR, 0);
-		addTextObject(pathText);
 	}
 
 	@Override
@@ -69,7 +65,8 @@ public class GameScene extends Scene {
 			Game.initMenuScene();
 		}
 		
-		pathText.setText(getPathLine());
+		player1.updateScore(getPathLine(player1));
+		player2.updateScore(getPathLine(player2));
 	}
 
 	public Player getPlayer1() {
@@ -175,7 +172,7 @@ public class GameScene extends Scene {
 		return (int) (Math.random() * (max - min) + min);
 	}
 
-	private String getPathLine() {
-		return String.format("%s: %d", KILOMETERS, (int) (path / PATH_MULTIPLIER));
+	private String getPathLine(Player player) {
+		return String.format("%s: %d", KILOMETERS, (int) (player.getY() / PATH_MULTIPLIER));
 	}
 }

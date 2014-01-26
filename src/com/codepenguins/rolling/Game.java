@@ -1,12 +1,17 @@
 package com.codepenguins.rolling;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import com.codepenguins.rolling.io.Render;
+import com.codepenguins.rolling.model.FinalScene;
 import com.codepenguins.rolling.model.GameObject;
 import com.codepenguins.rolling.model.GameScene;
 import com.codepenguins.rolling.model.MenuScene;
 import com.codepenguins.rolling.model.Player;
 import com.codepenguins.rolling.model.Scene;
 import com.codepenguins.rolling.model.TextObject;
+import com.codepenguins.rolling.model.UiObject;
 
 public class Game {
 	
@@ -47,8 +52,12 @@ public class Game {
 			
 			float camAngle = 0;
 			float alpha = 1.0f;
-			GameObject player = scene.getPlayer();
-			if (player != null) {
+			
+			GameObject player = null;
+			
+			if (scene instanceof GameScene) {
+				GameScene gameScene = (GameScene) scene;
+				player = gameScene.getPlayer();
 				camAngle = player.getPlayerAngle();
 				alpha = 1 - player.getPlayerSpeed() / 50; 
 			}
@@ -57,7 +66,7 @@ public class Game {
 			render.setCameraAngle(camAngle);
 			
 			for (GameObject obj: scene.getObjects()) {
-				if (!(obj instanceof Player)) {
+				if (!(obj instanceof Player) && !(obj instanceof UiObject)) {
 					render.drawObject(obj);
 				}
 			}
@@ -75,7 +84,6 @@ public class Game {
 				
 			camAngle = 0;
 			alpha = 1.0f;
-			player = scene.getPlayer();
 			if (player != null) {
 				camAngle = player.getPlayerAngle();
 				alpha = 1 - player.getPlayerSpeed() / 50; 
@@ -124,6 +132,11 @@ public class Game {
 		render.setBackgroundColor(scene.getBackgroundColor());
 	}
 	
+	public static void initFinalScene() {
+		scene = new FinalScene();
+		render.setBackgroundColor(scene.getBackgroundColor());
+	}
+	
 	public static void setGameOver() {
 		running = false;
 	}
@@ -141,7 +154,8 @@ public class Game {
 				{render.initTexture("res/duck.png"), 2, 64, 64},
 				{render.initTexture("res/Munhgauzen.png"), 1, 58, 85},
 				{render.initTexture("res/tiltrotor.png"), 2, 128, 57}, 
-				{render.initTexture("res/player.png"), 2, 100, 128},
+				{render.initTexture("res/char_big.png"), 6, 170, 172},
+				{render.initTexture("res/heart.png"), 1, 30, 30}
 		});
 		
 		TextObject.setFonts(new int[] {

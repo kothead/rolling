@@ -4,6 +4,7 @@ import com.codepenguins.rolling.model.GameObject;
 import com.codepenguins.rolling.Game;
 
 import static org.lwjgl.opengl.GL11.*;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -62,32 +63,32 @@ public class Render {
 		glEnable(GL_TEXTURE_2D);
 	}
 	
-	public void drawObject(GameObject obj) {
-		Tex.getTexture(obj.getTextureId()).bind();
-		if (false) {
-			glBegin(GL_QUADS);
-			glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 0);
-			glVertex3f(obj.getX(), obj.getY(), -1);
-			glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 1);
-			glVertex3f(obj.getX(), obj.getY()+obj.getHeight(), -1);
-			glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 1);
-			glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
-			glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 0);
-			glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
-			glEnd();
-		} else {
-			glBegin(GL_QUADS);
-			glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 0);
-			glVertex3f(obj.getX(), obj.getY(), -1);
-			glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 1);
-			glVertex3f(obj.getX(), obj.getY()+obj.getHeight(), -1);
-			glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 1);
-			glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
-			glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 0);
-			glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
-			glEnd();
-		}
-	}
+    public void drawObject(GameObject obj) {
+        Tex.getTexture(obj.getTextureId()).bind();
+        if (false) {
+                glBegin(GL_QUADS);
+                glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 0);
+                glVertex3f(obj.getX(), obj.getY(), -1);
+                glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 1);
+                glVertex3f(obj.getX(), obj.getY()+obj.getHeight(), -1);
+                glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 1);
+                glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
+                glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 0);
+                glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
+                glEnd();
+        } else {
+                glBegin(GL_QUADS);
+                glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 0);
+                glVertex3f(obj.getX(), obj.getY(), -1);
+                glTexCoord2f((obj.getFrameId() + 1.0f) / obj.getFrameCount(), 1);
+                glVertex3f(obj.getX(), obj.getY()+obj.getHeight(), -1);
+                glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 1);
+                glVertex3f(obj.getX()+obj.getWidth(), obj.getY()+obj.getHeight(), -1);
+                glTexCoord2f(((float)obj.getFrameId()) / obj.getFrameCount(), 0);
+                glVertex3f(obj.getX()+obj.getWidth(), obj.getY(), -1);
+                glEnd();
+        }
+    }
 	
 	public void drawText(int id, float x, float y, String text, int color) {
 		Color.white.bind();

@@ -2,6 +2,8 @@ package com.codepenguins.rolling.model;
 
 import java.util.List;
 
+import sun.awt.geom.AreaOp.AddOp;
+
 import com.codepenguins.rolling.Game;
 import com.codepenguins.rolling.io.Sound;
 import com.codepenguins.rolling.io.UserEvents;
@@ -12,13 +14,14 @@ public class GameScene extends Scene {
 	private static final int UI_COLOR = 0xFFFFFF;
 	
 	private static final float CLOUD_PROBABILITY = 1f;
-	private static final float PLANE_PROBABILITY = 0.3f;
+	private static final float PLANE_PROBABILITY = 0.5f;
 	private static final float SCENE_MULTIPLIER = 2;
 	private static final float PATH_MULTIPLIER = 100;
 	
 	private static final String KILOMETERS = "MILES";
 	
 	private TextObject pathText;
+	private UiObject[] hearts;
 	private Player player;
 	private int path;
 	private int sceneLeft;
@@ -38,6 +41,15 @@ public class GameScene extends Scene {
 		player.setX((Game.WIDTH - player.getWidth()) / 4);
 		player.setY((Game.HEIGHT - player.getHeight()) / 2);
 		appendGameObject(player);
+	
+		hearts = new UiObject[player.getLifes()];
+		for (int i = 0; i < hearts.length; i++) {
+			UiObject heart = new UiObject(8);
+			heart.setY(20);
+			heart.setX(Game.WIDTH - (heart.getWidth() + 10) * (i + 1));
+			hearts[i] = heart;
+			appendGameObject(heart);
+		}
 		
 		pathText = new TextObject(20, 20, getPathLine(), UI_COLOR, 0);
 		addTextObject(pathText);
@@ -61,9 +73,13 @@ public class GameScene extends Scene {
 		pathText.setText(getPathLine());
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+	
 	private void updateObjectsPosition() {
 		for (GameObject object: getObjects()) {
-			if (!(object instanceof Player)) {
+			if (!(object instanceof Player) && !(object instanceof UiObject)) {
 				object.setX(object.getX() - player.getVX());
 				object.setY(object.getY() - player.getVY());
 			}
@@ -90,6 +106,11 @@ public class GameScene extends Scene {
 					player.setVY(-player.getVY() + plane.getVY());
 					player.setVA(10); // TODO
 					player.setHit(true);
+					/*if (player.getLifes() > 0) {
+						deleteGameObject(hearts[player.getLifes()]);
+					} else {
+						Game.setGameOver();
+					}*/
 					return;
 				}
 			}
@@ -114,11 +135,9 @@ public class GameScene extends Scene {
 		if (cloudProb < calcProb * CLOUD_PROBABILITY / Game.TARGET_FPS) {
 			generateCloud();
 		}
-		if (Math.random() < 0.3) {
-			double planeProb = Math.random();
-			if (planeProb < calcProb * PLANE_PROBABILITY / Game.TARGET_FPS) {
-				generatePlane();
-			}
+		double planeProb = Math.random();
+		if (planeProb < calcProb * PLANE_PROBABILITY / Game.TARGET_FPS) {
+			generatePlane();
 		}
 	}
 	

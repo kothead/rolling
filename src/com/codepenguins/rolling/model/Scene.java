@@ -66,13 +66,4 @@ public class Scene {
 	public TextObject getTextObjectById(int index) {
 		return textObjects.get(index);
 	}
-	
-	public GameObject getPlayer() {
-		for (GameObject obj : objects) {
-			if (obj instanceof Player) {
-				return obj;
-			}
-		}
-		return null;
-	}
 }

@@ -5,9 +5,11 @@ import com.codepenguins.rolling.io.UserEvents;
 
 public class Player extends GameObject {
 
+	public static final int LIFES = 3; // challenge!
 	public static final int MAX_SPEED = 20;
 	public static final float SPRITE_THRESHOLD = 0.3f;
 	
+	private static final int[] spritesFlow = {0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 4, 5, 4, 3, 2, 1};
 	private static final int TEXTURE_ID = 7;
 	private static final int MIN_SPEED = 0;
 	private static final int MAX_ANGLE_SPEED = 10;
@@ -23,10 +25,13 @@ public class Player extends GameObject {
 	private float va;
 	private int animCounter;
 	private int recoveryCounter;
+	private int spriteCounter;
 	private boolean hit;
+	private int lifes;
 	
 	public Player() {
 		setCurrentTexture(TEXTURE_ID);
+		lifes = LIFES;
 	}
 	
 	@Override
@@ -53,6 +58,15 @@ public class Player extends GameObject {
 				recoveryCounter += Game.TARGET_TICK;
 			}
 		}
+	}
+	
+	@Override
+	public void setNextFrame() {
+		spriteCounter++;
+		if (spriteCounter >= spritesFlow.length) { 
+			spriteCounter = 0;
+		}
+		frameId = spritesFlow[spriteCounter];
 	}
 	
 	public float getVX() {
@@ -83,8 +97,13 @@ public class Player extends GameObject {
 		return hit;
 	}
 	
+	public int getLifes() {
+		return lifes;
+	}
+	
 	public void setHit(boolean hit) {
 		this.hit = hit;
+		lifes--;
 	}
 	
 	private void processControl() {

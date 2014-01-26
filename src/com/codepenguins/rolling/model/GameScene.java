@@ -35,7 +35,7 @@ public class GameScene extends Scene {
 		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
 		new Sound("res/game.wav");
 		player = new Player();
-		player.setX((Game.WIDTH - player.getWidth()) / 2);
+		player.setX((Game.WIDTH - player.getWidth()) / 4);
 		player.setY((Game.HEIGHT - player.getHeight()) / 2);
 		appendGameObject(player);
 		

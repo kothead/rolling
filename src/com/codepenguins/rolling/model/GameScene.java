@@ -73,6 +73,10 @@ public class GameScene extends Scene {
 		pathText.setText(getPathLine());
 	}
 
+	public Player getPlayer() {
+		return player;
+	}
+	
 	private void updateObjectsPosition() {
 		for (GameObject object: getObjects()) {
 			if (!(object instanceof Player) && !(object instanceof UiObject)) {
@@ -102,11 +106,11 @@ public class GameScene extends Scene {
 					player.setVY(-player.getVY() + plane.getVY());
 					player.setVA(10); // TODO
 					player.setHit(true);
-					if (player.getLifes() > 0) {
+					/*if (player.getLifes() > 0) {
 						deleteGameObject(hearts[player.getLifes()]);
 					} else {
 						Game.setGameOver();
-					}
+					}*/
 					return;
 				}
 			}
@@ -131,11 +135,9 @@ public class GameScene extends Scene {
 		if (cloudProb < calcProb * CLOUD_PROBABILITY / Game.TARGET_FPS) {
 			generateCloud();
 		}
-		if (Math.random() < 0.3) {
-			double planeProb = Math.random();
-			if (planeProb < calcProb * PLANE_PROBABILITY / Game.TARGET_FPS) {
-				generatePlane();
-			}
+		double planeProb = Math.random();
+		if (planeProb < calcProb * PLANE_PROBABILITY / Game.TARGET_FPS) {
+			generatePlane();
 		}
 	}
 	
@@ -154,7 +156,7 @@ public class GameScene extends Scene {
 	private void generatePlane() {
 		int typesCount = Plane.getTypesCount();
 		int typeIndex = (int) (Math.random() * (typesCount));
-		Plane.Type type = Plane.Type.DUCK;//values()[typeIndex];
+		Plane.Type type = Plane.Type.values()[typeIndex];
 		boolean right = Math.random() > 0.5;
 		Plane plane = new Plane(type, right);
 		if (type == Plane.Type.PLANE || type == Plane.Type.DUCK

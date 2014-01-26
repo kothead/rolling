@@ -1,5 +1,8 @@
 package com.codepenguins.rolling;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import com.codepenguins.rolling.io.Render;
 import com.codepenguins.rolling.model.GameObject;
 import com.codepenguins.rolling.model.GameScene;
@@ -7,6 +10,7 @@ import com.codepenguins.rolling.model.MenuScene;
 import com.codepenguins.rolling.model.Player;
 import com.codepenguins.rolling.model.Scene;
 import com.codepenguins.rolling.model.TextObject;
+import com.codepenguins.rolling.model.UiObject;
 
 public class Game {
 	
@@ -43,21 +47,30 @@ public class Game {
 			
 			float camAngle = 0;
 			float alpha = 1.0f;
-			GameObject player = scene.getPlayer();
-			if (player != null) {
+			
+			if (scene instanceof GameScene) {
+				GameScene gameScene = (GameScene) scene;
+				GameObject player = gameScene.getPlayer();
 				camAngle = player.getPlayerAngle();
 				alpha = 1 - player.getPlayerSpeed() / 50; 
 			}
+			
 			render.setCameraAngle(camAngle);
 			
+			List<GameObject> noRotate = new ArrayList<GameObject>();
 			for (GameObject obj: scene.getObjects()) {
-				if (!(obj instanceof Player)) {
+				if (!(obj instanceof Player) && !(obj instanceof UiObject)) {
 					render.drawObject(obj);
+				} else {
+					noRotate.add(obj);
 				}
 			}
 			
 			render.setNullRotate();
-			if (player != null) render.drawObject(player);
+			//if (player != null) render.drawObject(player);
+			for (GameObject obj: noRotate) {
+				render.drawObject(obj);
+			}
 			
 			for (TextObject tObj: scene.getTextObjects()) {
 				render.drawText(tObj.getFontId(), tObj.getX(), tObj.getY(), tObj.getText(), tObj.getColor());

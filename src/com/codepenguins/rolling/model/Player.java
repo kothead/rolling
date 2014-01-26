@@ -60,7 +60,6 @@ public class Player extends GameObject {
 		}
 	}
 	
-<<<<<<< HEAD
 	@Override
 	public void setNextFrame() {
 		spriteCounter++;
@@ -70,16 +69,6 @@ public class Player extends GameObject {
 		frameId = spritesFlow[spriteCounter];
 	}
 	
-	public float getAngle() {
-		return angle;
-	}
-	
-	public void setAngle(float angle) {
-		this.angle = angle;
-	}
-	
-=======
->>>>>>> a3ab62bbe7500d93f932288d1b76364371bf0a96
 	public float getVX() {
 		return vx;
 	}

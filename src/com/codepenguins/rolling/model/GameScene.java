@@ -1,6 +1,5 @@
 package com.codepenguins.rolling.model;
 
-import java.nio.channels.GatheringByteChannel;
 import java.util.List;
 
 import sun.awt.geom.AreaOp.AddOp;
@@ -17,7 +16,7 @@ public class GameScene extends Scene {
 	private static final float CLOUD_PROBABILITY = 1f;
 	private static final float PLANE_PROBABILITY = 0.5f;
 	private static final float SCENE_MULTIPLIER = 2;
-	private static final float PATH_MULTIPLIER = 1000;
+	private static final float PATH_MULTIPLIER = 100;
 	
 	private static final String KILOMETERS = "MILES";
 	
@@ -101,6 +100,7 @@ public class GameScene extends Scene {
 				if (ox2 >= x1 && ox1 <= x2 && oy2 >= y1 && oy1 <= y2) {
 					player.setVX(-player.getVX() + plane.getVX());
 					player.setVY(-player.getVY() + plane.getVY());
+					player.setVA(10); // TODO
 					player.setHit(true);
 					if (player.getLifes() > 0) {
 						deleteGameObject(hearts[player.getLifes()]);
@@ -131,11 +131,12 @@ public class GameScene extends Scene {
 		if (cloudProb < calcProb * CLOUD_PROBABILITY / Game.TARGET_FPS) {
 			generateCloud();
 		}
-
-		double planeProb = Math.random();
-		if (planeProb < calcProb * PLANE_PROBABILITY / Game.TARGET_FPS) {
-			generatePlane();
-		}		
+		if (Math.random() < 0.3) {
+			double planeProb = Math.random();
+			if (planeProb < calcProb * PLANE_PROBABILITY / Game.TARGET_FPS) {
+				generatePlane();
+			}
+		}
 	}
 	
 	private void generateCloud() {

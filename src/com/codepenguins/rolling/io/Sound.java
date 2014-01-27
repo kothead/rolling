@@ -12,6 +12,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Sound {
     
+	private boolean isPlaying = true;
+	
 	public Sound(final String fileName) {
 		
 		Thread myThready = new Thread(new Runnable() {
@@ -26,7 +28,7 @@ public class Sound {
 	    		    clip.start();
 	    		    long trackLenght = clip.getMicrosecondLength();
 	    		    for (long time = 0; time < trackLenght; time += checkStateTime) {
-	    		    	if (!Game.isRunning()) break;
+	    		    	if (!Sound.this.isPlaying || !Game.isRunning()) break;
 	    		    	Thread.sleep(checkStateTime);
 	    		    }
 	    		    clip.stop();
@@ -38,5 +40,9 @@ public class Sound {
         });
         myThready.start();
         
+	}
+	
+	public void stopPlaying() {
+		isPlaying = false;
 	}
 }

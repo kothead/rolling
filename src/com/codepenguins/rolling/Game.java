@@ -129,6 +129,7 @@ public class Game {
 		
 		TextObject.setFonts(new int[] {
 				render.initNewFont("arial", FONT_SIZE_LARGE, 0),
+				render.initNewFont("arial", 12, 0),
 				render.initNewFont("comic sans ms", 18, 0)
 		});
 	}

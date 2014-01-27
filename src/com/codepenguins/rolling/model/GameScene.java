@@ -17,15 +17,15 @@ public class GameScene extends Scene {
 	private static final int UPPER_BOUND = 500;
 	private static final int LOWER_BOUND = -100;
 	private static final float CLOUD_PROBABILITY = 1f;
-	private static final float PLANE_PROBABILITY = 0.1f;
-	private static final float PLANE_PROB_INC = 0.001f;
+	private static final float PLANE_PROBABILITY = 0.3f;
+	private static final float PLANE_PROB_INC = 0.0001f;
 	private static final float SCENE_MULTIPLIER = 2;
 	private static final float PATH_MULTIPLIER = 100;
 	
 	private static final String KILOMETERS = "MILES";
 	
 	private TextObject pathText;
-	//private UiObject[] hearts;
+	private Sound soundtrack;
 	private Player player;
 	private float currentProb = PLANE_PROBABILITY;
 	private int path;
@@ -41,7 +41,7 @@ public class GameScene extends Scene {
 		sceneRight = (int) (Game.WIDTH + Game.WIDTH / multiplier);
 		sceneTop = (int) (0 - Game.HEIGHT / multiplier);
 		sceneBottom = (int) (Game.HEIGHT + Game.HEIGHT / multiplier);
-		new Sound("res/game.wav");
+		soundtrack = new Sound("res/game.wav");
 		player = new Player();
 		player.setX((Game.WIDTH - player.getWidth()) / 2);
 		player.setY((Game.HEIGHT - player.getHeight()) / 2);
@@ -87,6 +87,7 @@ public class GameScene extends Scene {
 			Game.initFinalScene(true);
 		} else {
 			currentProb += PLANE_PROB_INC;
+			System.out.println(currentProb);
 		}
 	}
 	

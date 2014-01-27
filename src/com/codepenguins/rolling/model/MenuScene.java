@@ -12,10 +12,18 @@ public class MenuScene extends Scene {
 	private final int COLOR = 0xFFFFFF;
 	private final int SELECTED_COLOR = 0x33DD33;
 	private final int FONT_ID = 0;
+	private final int FONT_ID_CREDIT = 1;
 	
 	private final String START_GAME = "START";
 	private final String EXIT_GAME = "EXIT";
 	private final String ROLLING = "ROLLING";
+	private final String CREDITS = "by EADan, Kate & st_";
+	private final String TARGET = "(just get 500 miles)";
+	private final String[] MUSIC = {"music - quake3 ost", 
+			"Front Line Assembly (http://www.mindphaser.com/)", 
+			"Sonic Mayhem (http://www.sonicmayhem.com/)"};
+	
+	private Sound soundtrack;
 	
 	int selectedIndex = 0;
 	int buttonsNum = 2;
@@ -27,15 +35,24 @@ public class MenuScene extends Scene {
 
 	public MenuScene() {
 		int x = getXcoord();
-		int y0 = getYcoord(0);
-		addTextObject(new TextObject(x, y0, START_GAME, SELECTED_COLOR, FONT_ID));
-		int y1 = getYcoord(1);
-		addTextObject(new TextObject(x, y1, EXIT_GAME, COLOR, FONT_ID));
-		int x2 = getTitleXcoord();
-		int y2 = getTitleYcoord();
-		addTextObject(new TextObject(x2, y2, ROLLING, COLOR, FONT_ID));
+		int y = getYcoord(0);
+		addTextObject(new TextObject(x, y, START_GAME, SELECTED_COLOR, FONT_ID));
+		y = getYcoord(1);
+		addTextObject(new TextObject(x, y, EXIT_GAME, COLOR, FONT_ID));
+		x = getTitleXcoord();
+		y = getTitleYcoord();
+		addTextObject(new TextObject(x, y, ROLLING, COLOR, FONT_ID));
+		addTextObject(new TextObject(x, y + 25, TARGET, SELECTED_COLOR, FONT_ID_CREDIT));
+		
+		addTextObject(new TextObject(0.44f * Game.WIDTH, 0.9f * Game.HEIGHT, CREDITS, 
+				COLOR, FONT_ID_CREDIT));
+		
+		for (int i = 0; i < MUSIC.length; i++) {
+			addTextObject(new TextObject(0.6f * Game.WIDTH, 0.05f * Game.HEIGHT + (12 * i), MUSIC[i], 
+					COLOR, FONT_ID_CREDIT));
+		}
 		setBackgroundColor(BACKGROUND);
-		new Sound("res/intro.wav");
+		soundtrack = new Sound("res/intro.wav");
 	}
 
 	@Override
@@ -61,9 +78,10 @@ public class MenuScene extends Scene {
 					tObj.setColor(COLOR);
 			}
 		} else if (keyPressed[returnIndex]) {
-			if (selectedIndex == 0)
+			if (selectedIndex == 0) {
 				Game.initGameScene();
-			else if (selectedIndex == 1)
+				soundtrack.stopPlaying();
+			} else if (selectedIndex == 1)
 				Game.setGameOver();
 		} else if (keyPressed[escapeIndex]) {
 			Game.setGameOver();
